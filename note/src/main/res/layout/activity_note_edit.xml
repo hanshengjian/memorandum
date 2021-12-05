@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:binding="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.hy.note.ui.NoteEditViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="#ffffff">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_note"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:navigationIcon="@mipmap/direction_left"
+            app:title="编辑日志"
+            app:titleTextAppearance="@style/Toolbar.TitleText"
+            app:titleMarginStart="20dp"
+            android:clickable="true"
+            >
+            <TextView
+                android:id="@+id/save_tv"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:text="保存"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:onClick="@{()->viewModel.saveNote()}"
+                android:clickable="true"
+                >
+
+            </TextView>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@drawable/toolbar_shadow_bg" />
+
+        <EditText
+            android:id="@+id/edit_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@={viewModel.content}"></EditText>
+    </LinearLayout>
+
+
+
+</layout>

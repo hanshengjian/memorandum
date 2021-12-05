@@ -1,0 +1,19 @@
+ext {
+    android = [
+            //定义编译版本
+            compileSdkVersion: 28,
+            buildToolsVersion: "28.0.2",
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            //定义三方框架版本
+            recyclerviewVersion:"1.2.0",
+            room_version:"2.2.5",
+            kotlinx_coroutines:"1.3.3",
+            elegantbus:"2.0.0",
+
+    ]
+}
+
+
+
+

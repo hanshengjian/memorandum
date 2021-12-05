@@ -1,0 +1,7 @@
+include ':dataCompile'
+include ':app'
+include ':bedone'
+include ':note'
+include ':common'
+include ':utils'
+rootProject.name = "memorandum"

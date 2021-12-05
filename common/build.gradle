@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+apply from: "../buildModule.gradle"
+
+dependencies{
+    implementation project(":utils")
+    implementation project(":dataCompile")
+   // kapt  project(":dataCompile")
+    implementation "androidx.multidex:multidex:2.0.1"
+}
