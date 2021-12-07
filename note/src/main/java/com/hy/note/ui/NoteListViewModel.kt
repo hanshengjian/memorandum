@@ -9,6 +9,7 @@ import com.hy.common.data.Note
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.repo.ReponseCall
+import com.hy.common.repo.coroutines.NoteRepositoryCoroutine
 import com.hy.common.repo.note.NoteRepository
 import java.lang.Exception
 
@@ -20,7 +21,7 @@ class NoteListViewModel : ViewModel() {
     var notesLiveData: MutableLiveData<List<Note>>? = MutableLiveData(mutableListOf())
 
     fun getNotes(): MutableLiveData<List<Note>>? {
-        NoteRepository().getNotes(object : ReponseCall<List<Note>> {
+        NoteRepositoryCoroutine().getNotes(object : ReponseCall<List<Note>> {
             override fun onResponse(t: List<Note>) {
                 if (!t.isEmpty()) {
                     notesLiveData?.value = t
@@ -33,8 +34,7 @@ class NoteListViewModel : ViewModel() {
             override fun onError(e: Exception) {
                 empty.value = true
             }
-        }).asynclocal()
-
+        })
         return notesLiveData
 
     }

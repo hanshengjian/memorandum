@@ -9,6 +9,7 @@ import com.hy.common.data.Note
 import com.hy.common.extend.getApplication
 import com.hy.common.repo.LocalDataManager
 import com.hy.common.repo.ReponseCall
+import com.hy.common.repo.coroutines.NoteRepositoryCoroutine
 import com.hy.common.repo.note.NoteRepository
 import java.lang.Exception
 
@@ -26,7 +27,7 @@ class NoteEditViewModel:ViewModel() {
             content.value?.let {
                 val note = Note(content = content.value!!)
                 note.createTime = System.currentTimeMillis()
-                NoteRepository.instance.addNote(note,object : ReponseCall<Int>{
+                NoteRepositoryCoroutine.instance.addNote(note,object : ReponseCall<Int>{
                     override fun onResponse(t: Int) {
                         saveSuccess.value = true
                        // Toast.makeText(getApplication(),"保存成功",Toast.LENGTH_SHORT).show()
@@ -36,18 +37,27 @@ class NoteEditViewModel:ViewModel() {
                         saveSuccess.value = false
                         //Toast.makeText(getApplication(),"保存失败",Toast.LENGTH_SHORT).show()
                     }
-                }).asynclocal()
+                })
             }
 
         }else {
-            val note = NoteRepository.instance.getNote(noteId!!,null).getLocal()
-            NoteRepository.instance.updateNote(note,object:ReponseCall<Int>{
-                override fun onResponse(t: Int) {
-                    saveSuccess.value = true
+            //这个流程有问题
+            NoteRepositoryCoroutine.instance.getNote(noteId!!,object :ReponseCall<Note>{
+                override fun onResponse(t: Note) {
+                    NoteRepositoryCoroutine.instance.updateNote(t,object:ReponseCall<Int>{
+                        override fun onResponse(t: Int) {
+                            saveSuccess.value = true
+                        }
+
+                        override fun onError(e: Exception) {
+                            saveSuccess.value = false
+                        }
+
+                    })
                 }
 
                 override fun onError(e: Exception) {
-                    saveSuccess.value = false
+
                 }
 
             })
