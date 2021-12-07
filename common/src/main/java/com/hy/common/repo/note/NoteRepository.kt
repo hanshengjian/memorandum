@@ -34,19 +34,6 @@ class NoteRepository :NoteDataRepoApi{
                 })
 
             }
-
-            override fun remote() {
-            }
-
-            override fun remoteLocal() {
-
-            }
-
-            override fun getLocal():Int {
-                val t:Int = NoteLocalDataApi().addNote(newNote)
-                return t
-            }
-
         }
     }
 
@@ -68,18 +55,6 @@ class NoteRepository :NoteDataRepoApi{
                     }
                 }
             }
-
-            override fun remote() {
-            }
-
-            override fun remoteLocal() {
-            }
-
-            override fun getLocal():List<Note> {
-                val datas = NoteLocalDataApi().getNote();
-                return datas
-            }
-
         }
     }
     override fun getNote(id: Int,reponse:ReponseCall<Note>?): BaseReq<Note> {
@@ -99,17 +74,6 @@ class NoteRepository :NoteDataRepoApi{
 
                     }
                 }
-            }
-
-            override fun remote() {
-            }
-
-            override fun remoteLocal() {
-            }
-
-            override fun getLocal():Note {
-                val datas = NoteLocalDataApi().getNote(id)
-                return datas
             }
 
         }
@@ -133,19 +97,6 @@ class NoteRepository :NoteDataRepoApi{
                 })
 
             }
-
-            override fun remote() {
-            }
-
-            override fun remoteLocal() {
-
-            }
-
-            override fun getLocal():Int {
-                val t:Int = NoteLocalDataApi().updateNote(newNote)
-                return t
-            }
-
         }
     }
 }
