@@ -1,2 +1,2 @@
 # memorandum
-备忘率APP
+备忘录APP
