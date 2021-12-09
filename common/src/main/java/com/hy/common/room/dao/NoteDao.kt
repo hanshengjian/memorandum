@@ -1,4 +1,4 @@
-package com.hy.common.room
+package com.hy.common.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

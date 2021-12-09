@@ -1,3 +1,8 @@
+include ':inter'
+include ':hybrid'
+include ':advertisement'
+include ':dicmanager'
+include ':setting'
 include ':dataCompile'
 include ':app'
 include ':bedone'

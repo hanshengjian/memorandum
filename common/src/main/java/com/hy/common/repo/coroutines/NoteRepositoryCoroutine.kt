@@ -2,13 +2,8 @@ package com.hy.common.repo.coroutines
 
 import com.hy.common.data.Note
 import com.hy.common.exception.MemException
-import com.hy.common.repo.BaseReq
 import com.hy.common.repo.ReponseCall
-import com.hy.common.repo.note.NoteDataRepoApi
-import com.hy.common.repo.note.NoteLocalDataApi
-import com.hy.common.threadpool.ThreadPoolManager
 import kotlinx.coroutines.*
-import java.lang.Exception
 
 /**
  * @Author Lenovo

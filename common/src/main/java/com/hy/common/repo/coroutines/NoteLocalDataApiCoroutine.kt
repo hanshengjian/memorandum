@@ -1,8 +1,6 @@
 package com.hy.common.repo.coroutines
 
 import com.hy.common.data.Note
-import com.hy.common.repo.BaseReq
-import com.hy.common.repo.note.NoteDataApi
 import com.hy.common.room.AppDatabaseInstance
 import java.lang.Exception
 

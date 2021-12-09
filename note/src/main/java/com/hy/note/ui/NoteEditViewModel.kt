@@ -1,16 +1,10 @@
 package com.hy.note.ui
 
-import android.text.TextUtils
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hy.common.base.BaseApp
 import com.hy.common.data.Note
-import com.hy.common.extend.getApplication
-import com.hy.common.repo.LocalDataManager
 import com.hy.common.repo.ReponseCall
 import com.hy.common.repo.coroutines.NoteRepositoryCoroutine
-import com.hy.common.repo.note.NoteRepository
 import java.lang.Exception
 
 /**
