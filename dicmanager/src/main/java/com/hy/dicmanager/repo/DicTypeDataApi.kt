@@ -10,7 +10,7 @@ import com.hy.common.data.DicType
 interface DicTypeDataApi {
     fun addDicType(newDic:DicType):Int
 
-    fun deleteDicType(typeId:Int):Int
+    fun deleteDicType(delectDic:DicType):Int
 
     fun updateDicType(updateDicType:DicType):Int
 

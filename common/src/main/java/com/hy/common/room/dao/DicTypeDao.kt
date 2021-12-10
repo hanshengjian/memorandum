@@ -1,0 +1,26 @@
+package com.hy.common.room.dao
+
+import androidx.room.*
+import com.hy.common.data.DicType
+
+/**
+ * @auther:hanshengjian
+ * @date:2021/12/8
+ */
+@Dao
+interface DicTypeDao {
+    @Insert
+    fun addDicType(dicType: DicType)
+
+    @Update
+    fun updateDicType(dicType: DicType)
+
+    @Query("select * from folder_type where page=:page")
+    fun getDicTypes(page:Int):List<DicType>;
+
+    @Query("select * from folder_type where type=:id")
+    fun getDicType(id:Int): DicType;
+
+    @Delete
+    fun deleteDicType(dicType: DicType)
+}

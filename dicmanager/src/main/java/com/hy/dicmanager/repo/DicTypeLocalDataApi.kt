@@ -1,6 +1,8 @@
 package com.hy.dicmanager.repo
 
 import com.hy.common.data.DicType
+import com.hy.common.room.AppDatabaseInstance
+import java.lang.Exception
 
 /**
  * @auther:hanshengjian
@@ -9,18 +11,38 @@ import com.hy.common.data.DicType
  */
 class DicTypeLocalDataApi:DicTypeDataApi {
     override fun addDicType(newDic: DicType): Int {
-        return 1
+        try {
+            AppDatabaseInstance().dicTypeDao().addDicType(newDic)
+            return 1
+        }catch (e:Exception){
+            throw e
+        }
     }
 
-    override fun deleteDicType(typeId: Int): Int {
-        return 1
+    override fun deleteDicType(delectDic: DicType): Int {
+        try {
+            AppDatabaseInstance().dicTypeDao().deleteDicType(delectDic)
+            return 1
+        }catch (e:Exception){
+            throw e
+        }
     }
+
 
     override fun updateDicType(updateDicType: DicType): Int {
-        return 1
+        try {
+            AppDatabaseInstance().dicTypeDao().updateDicType(updateDicType)
+            return 1
+        }catch (e:Exception){
+            throw e
+        }
     }
 
     override fun getDicTypes(page: Int): List<DicType> {
-        return mutableListOf()
+        try {
+            return AppDatabaseInstance().dicTypeDao().getDicTypes(page)
+        }catch (e:Exception){
+            throw e
+        }
     }
 }
