@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
  * @date:2021/12/8
  * 笔记类型
  */
-@Entity(tableName = "folder_type")
+@Entity(tableName = "dic_type")
 data class DicType(
     @PrimaryKey(autoGenerate = true) var id:Long = 0,
     @ColumnInfo(name = "type_name") var content:String = "",

@@ -15,10 +15,10 @@ interface DicTypeDao {
     @Update
     fun updateDicType(dicType: DicType)
 
-    @Query("select * from folder_type where page=:page")
-    fun getDicTypes(page:Int):List<DicType>;
+    @Query("select * from dic_type where page=:page")
+    fun getDicTypes(page:Int):List<DicType>
 
-    @Query("select * from folder_type where type=:id")
+    @Query("select * from dic_type where type=:id")
     fun getDicType(id:Int): DicType;
 
     @Delete

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.hy.common.data.Note
 import com.hy.common.repo.ReponseCall
 import com.hy.common.repo.coroutines.NoteRepositoryCoroutine
+import com.hy.note.repo.NoteRepository
 import java.lang.Exception
 
 /**
@@ -21,7 +22,7 @@ class NoteEditViewModel:ViewModel() {
             content.value?.let {
                 val note = Note(content = content.value!!)
                 note.createTime = System.currentTimeMillis()
-                NoteRepositoryCoroutine.instance.addNote(note,object : ReponseCall<Int>{
+                NoteRepository.instance.addNote(note,object : ReponseCall<Int>{
                     override fun onResponse(t: Int) {
                         saveSuccess.value = true
                        // Toast.makeText(getApplication(),"保存成功",Toast.LENGTH_SHORT).show()
@@ -36,7 +37,7 @@ class NoteEditViewModel:ViewModel() {
 
         }else {
             //这个流程有问题
-            NoteRepositoryCoroutine.instance.getNote(noteId!!,object :ReponseCall<Note>{
+            NoteRepository.instance.getNote(noteId!!,object :ReponseCall<Note>{
                 override fun onResponse(t: Note) {
                     NoteRepositoryCoroutine.instance.updateNote(t,object:ReponseCall<Int>{
                         override fun onResponse(t: Int) {

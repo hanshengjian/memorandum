@@ -9,8 +9,9 @@ import com.hy.common.room.dao.NoteDao
 
 /**
  * @Author Lenovo
+ * 注意entities的要添加所有数据表类
  */
-@Database(entities = [Note::class],version = 1)
+@Database(entities = [Note::class,DicType::class],version = 1)
 abstract class AppDatabase :RoomDatabase(){
     abstract fun noteDao(): NoteDao
     abstract fun dicTypeDao(): DicTypeDao
