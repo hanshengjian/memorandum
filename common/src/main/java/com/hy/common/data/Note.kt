@@ -16,5 +16,7 @@ data class Note(
     @ColumnInfo(name="title") var title:String = "",
     @ColumnInfo(name = "create_time") var createTime:Long = 0,
     @ColumnInfo(name = "modify_time") var modify_time:Long = 0,
-    @ColumnInfo(name="author") var userId:String = ""
+    @ColumnInfo(name="author") var userId:String = "",
+    @ColumnInfo(name="cover") var cover:Int = 0,
+    @ColumnInfo(name = "delete") var delete:Int = 0
 )

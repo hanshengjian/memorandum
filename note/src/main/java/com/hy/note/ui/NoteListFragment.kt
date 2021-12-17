@@ -7,8 +7,10 @@ import cody.bus.ElegantBus
 import cody.bus.ElegantLog
 import cody.bus.ObserverWrapper
 import com.hy.common.base.BaseFragment
+import com.hy.common.widget.DicPopupWin
 import com.hy.note.R
 import com.hy.note.databinding.FragmentNoteListBinding
+import kotlinx.android.synthetic.main.fragment_note_list.*
 
 
 /**
@@ -16,6 +18,7 @@ import com.hy.note.databinding.FragmentNoteListBinding
  */
 class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
     lateinit var noteListiewModel: NoteListViewModel;
+    var dicPopupWindow:DicPopupWin?=null
     private val noteListAdapter by lazy {
         NoteListAdapter(){
             noteListiewModel.editPage(it.id.toInt())
@@ -31,6 +34,19 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         binding.apply {
             viewModel = noteListiewModel
             adapter = noteListAdapter
+        }
+
+        dic_note_ll.setOnClickListener {
+            if(dicPopupWindow==null){
+                dicPopupWindow = DicPopupWin(0,activity)
+            }
+            if(dicPopupWindow!!.isShowing){
+                dic_arrow_iv.setImageResource(R.mipmap.arrow_down_bold)
+                dicPopupWindow!!.dismiss()
+            }else{
+                dic_arrow_iv.setImageResource(R.mipmap.arrow_up_bold)
+                dicPopupWindow!!.show(it)
+            }
         }
     }
     override fun initData() {

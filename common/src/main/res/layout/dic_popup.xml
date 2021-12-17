@@ -1,10 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent_50">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/all_data_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部笔记">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="9"></TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/no_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="未分类">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="9"></TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cover_ll"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的收藏">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="9"></TextView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/delete_data_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的删除">
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="9"></TextView>
+        </RelativeLayout>
 
 
 
 
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center_vertical"
+            android:background="@color/page_background">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文件夹"
+                android:layout_alignParentLeft="true"/>
+
+            <TextView
+                android:id="@+id/pic_manager_tv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="管理"
+                android:layout_alignParentRight="true"
+                android:gravity="center"></TextView>
+
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/dic_list_recyc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 
 </LinearLayout>
