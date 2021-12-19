@@ -1,7 +1,6 @@
 package com.hy.dicmanager.repo
 
-import com.hy.common.data.DicType
-import com.hy.common.repo.BaseReq
+import com.hy.common.model.DicType
 import com.hy.common.repo.ReponseCall
 import com.hy.common.threadpool.ThreadPoolManager
 import java.lang.Exception

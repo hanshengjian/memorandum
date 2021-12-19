@@ -1,6 +1,6 @@
 package com.hy.note.repo
 
-import com.hy.common.data.Note
+import com.hy.common.model.Note
 import com.hy.common.room.AppDatabaseInstance
 import java.lang.Exception
 

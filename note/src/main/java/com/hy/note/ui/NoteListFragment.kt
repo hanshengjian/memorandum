@@ -64,6 +64,7 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
             noteListAdapter.apply {
                 notes = it
                 if(it.size>0){
+                    ll_empty.visibility = View.GONE
                     notifyDataSetChanged()
                 }
             }

@@ -1,6 +1,6 @@
 package com.hy.dicmanager.repo
 
-import com.hy.common.data.DicType
+import com.hy.common.model.DicType
 
 /**
  * @auther:hanshengjian

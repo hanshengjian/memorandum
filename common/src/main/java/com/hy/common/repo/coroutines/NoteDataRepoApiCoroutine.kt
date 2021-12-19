@@ -1,7 +1,6 @@
 package com.hy.common.repo.coroutines
 
-import com.hy.common.data.Note
-import com.hy.common.repo.BaseReq
+import com.hy.common.model.Note
 import com.hy.common.repo.ReponseCall
 
 /**

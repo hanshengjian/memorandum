@@ -2,8 +2,8 @@ package com.hy.common.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.hy.common.data.DicType
-import com.hy.common.data.Note
+import com.hy.common.model.DicType
+import com.hy.common.model.Note
 import com.hy.common.room.dao.DicTypeDao
 import com.hy.common.room.dao.NoteDao
 

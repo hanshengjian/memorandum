@@ -1,8 +1,7 @@
 package com.hy.common.navigator
 
-import android.content.Context
 import com.alibaba.android.arouter.facade.template.IProvider
-import com.hy.common.data.DicType
+import com.hy.common.model.DicType
 
 /**
  * @auther:hanshengjian
@@ -10,7 +9,6 @@ import com.hy.common.data.DicType
  *
  */
 interface DicManagerService:IProvider {
-    fun getDicList(page:Int):List<DicType>
-
-    fun addDicType(page:Int,title:String):Int
+    fun getDicList(page:Int,expression:(List<DicType>?,String?)->Unit)
+    fun addDicType(page:Int,title:String,expression:(Int,String?)->Unit)
 }

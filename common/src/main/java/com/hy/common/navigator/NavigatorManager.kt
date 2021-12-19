@@ -22,14 +22,16 @@ object NavigatorManager {
             { proxy, method, args ->
                 //解析路由协议
                 //route,param
-                arouter(parseNavigatorMethod(method, args))
+                val navigatorMethod = parseNavigatorMethod(method, args)
+                val obj = arouter(navigatorMethod)
+                if(obj == null) "object" else obj
             })
 
         return t as T
     }
 
     fun parseNavigatorMethod(method: Method, objects: Array<Any>?): NavigatorMethod {
-        val navigatorMethod: NavigatorMethod = NavigatorMethod()
+        val navigatorMethod: NavigatorMethod = NavigatorMethod(originMethod= method)
 
         if (method.isAnnotationPresent(Route::class.java)) {
             val annotation = method.getAnnotation(Route::class.java)
@@ -51,7 +53,7 @@ object NavigatorManager {
         return navigatorMethod
     }
 
-    fun arouter(navigatorMethod: NavigatorMethod) {
+    fun arouter(navigatorMethod: NavigatorMethod) : Any?{
         val postcard = ARouter.getInstance().build(navigatorMethod.path)
         navigatorMethod.params.forEach {
             if (it.type.equals("int")) {
@@ -71,6 +73,6 @@ object NavigatorManager {
                 postcard.withParcelable(it.name,it.value as Parcelable)
             }
         }
-        postcard.navigation()
+        return postcard.navigation()
     }
 }

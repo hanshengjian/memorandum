@@ -1,7 +1,6 @@
-package com.hy.common.data
+package com.hy.common.model
 
 import androidx.room.ColumnInfo
-import androidx.room.ColumnInfo.BLOB
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 

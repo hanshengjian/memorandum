@@ -1,7 +1,7 @@
 package com.hy.common.room.dao
 
 import androidx.room.*
-import com.hy.common.data.DicType
+import com.hy.common.model.DicType
 
 /**
  * @auther:hanshengjian
@@ -18,7 +18,7 @@ interface DicTypeDao {
     @Query("select * from dic_type where page=:page")
     fun getDicTypes(page:Int):List<DicType>
 
-    @Query("select * from dic_type where type=:id")
+    @Query("select * from dic_type where id=:id")
     fun getDicType(id:Int): DicType;
 
     @Delete

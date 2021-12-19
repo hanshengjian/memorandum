@@ -11,14 +11,18 @@ import cody.bus.ElegantLog
 import cody.bus.ObserverWrapper
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hy.common.base.BaseActivity
+import com.hy.common.model.DicType
 import com.hy.common.navigator.NoteNavigator
 import com.hy.note.R
 import com.hy.note.databinding.ActivityNoteEditBinding
+import com.hy.note.widget.DicPopupWin
+import kotlinx.android.synthetic.main.activity_note_edit.*
 
 @Route(path = NoteNavigator.EDIT_PAGE_PATH)
 class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
     lateinit var noteEditViewModel: NoteEditViewModel
     lateinit var toolbar: Toolbar;
+    var dicType: DicType? = null;
     var noteId :Int ?=null
     override fun initView(){
         toolbar = findViewById(R.id.toolbar_note)
@@ -30,6 +34,18 @@ class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
         noteEditViewModel = ViewModelProvider(this).get(NoteEditViewModel::class.java)
         binding.run {
             viewModel = noteEditViewModel
+        }
+
+        dic_select_tv.setOnClickListener {
+            val dicPopuWin = DicPopupWin(0,this@NoteEditActivity){
+                dicType = it
+                dicType?.let {
+                    dic_select_tv.text = it.content
+                    noteEditViewModel.type = it.id
+                }
+
+            }
+            dicPopuWin.show(it)
         }
     }
 

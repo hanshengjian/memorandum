@@ -29,5 +29,6 @@ dependencies {
       implementation project(path:':common')
       implementation project(":note")
       implementation project(":bedone")
+      implementation project(":dicmanager")
 
 }

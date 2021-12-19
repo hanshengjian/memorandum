@@ -4,9 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.hy.common.data.Note
+import com.hy.common.model.Note
 import com.hy.note.R
 import com.hy.note.databinding.ItemNoteBinding
 

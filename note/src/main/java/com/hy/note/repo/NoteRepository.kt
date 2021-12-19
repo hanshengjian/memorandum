@@ -1,7 +1,6 @@
 package com.hy.note.repo
 
-import com.hy.common.data.Note
-import com.hy.common.repo.BaseReq
+import com.hy.common.model.Note
 import com.hy.common.repo.ReponseCall
 import com.hy.common.threadpool.ThreadPoolManager
 import java.lang.Exception
@@ -13,7 +12,6 @@ class NoteRepository {
 
     companion object{
         val TAG:String = "NoteRepository"
-        val instance : NoteRepository = NoteRepository()
     }
 
      fun addNote(newNote: Note, reponse: ReponseCall<Int>?) {

@@ -98,17 +98,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:background="@color/page_background">
+          >
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:text="文件夹"
-                android:layout_alignParentLeft="true"/>
+                android:layout_alignParentLeft="true"
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/pic_manager_tv"
@@ -123,7 +125,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/dic_list_recyc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingLeft="15dp">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
