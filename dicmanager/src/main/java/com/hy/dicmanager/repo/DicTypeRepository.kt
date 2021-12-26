@@ -42,13 +42,27 @@ class DicTypeRepository {
          }
     }
 
-     fun getDicType(id: Int, reponse: ReponseCall<DicType>?) {
+     fun getDicType(page:Int,id: Int, reponse: ReponseCall<DicType?>?) {
+         ThreadPoolManager.threadPool.execute{
+             try {
+                 val dicTypes = DicTypeLocalDataApi().getDicType(page,id)
+                 ThreadPoolManager.mainHandler.post {
+                     reponse?.onResponse(dicTypes)
+                 }
+             }catch (e:Exception){
+                 ThreadPoolManager.mainHandler.post {
+                     reponse?.onError(e)
+                 }
+             }
+         }
     }
 
-     fun updateDicType(newNote: DicType, reponse: ReponseCall<Int>?) {
+    fun updateDicType(newNote: DicType, reponse: ReponseCall<Int>?) {
+
     }
 
-     fun deleteDicType(id: Int, reponse: ReponseCall<Int>){
+    fun deleteDicType(id: Int, reponse: ReponseCall<Int>){
+
     }
 
 }

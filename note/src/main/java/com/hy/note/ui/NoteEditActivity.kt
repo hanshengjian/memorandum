@@ -16,6 +16,7 @@ import com.hy.common.navigator.NoteNavigator
 import com.hy.note.R
 import com.hy.note.databinding.ActivityNoteEditBinding
 import com.hy.note.widget.DicPopupWin
+import com.hy.utils.TimeUtil
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
 @Route(path = NoteNavigator.EDIT_PAGE_PATH)
@@ -34,19 +35,22 @@ class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
         noteEditViewModel = ViewModelProvider(this).get(NoteEditViewModel::class.java)
         binding.run {
             viewModel = noteEditViewModel
-        }
+            dicSelectTv.setOnClickListener {
+                val dicPopuWin = DicPopupWin(0,this@NoteEditActivity){
+                    dicType = it
+                    dicType?.let {
+                        noteEditViewModel.type.value = it.id
+                    }
 
-        dic_select_tv.setOnClickListener {
-            val dicPopuWin = DicPopupWin(0,this@NoteEditActivity){
-                dicType = it
-                dicType?.let {
-                    dic_select_tv.text = it.content
-                    noteEditViewModel.type = it.id
                 }
-
+                dicPopuWin.show(it)
             }
-            dicPopuWin.show(it)
+            editContent.setFocusable(true)
+            editContent.setFocusableInTouchMode(true)
+            editContent.requestFocus()
         }
+
+
     }
 
     override fun initData(){
@@ -65,6 +69,9 @@ class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
             imm.hideSoftInputFromWindow(this@NoteEditActivity.getWindow().getDecorView().getWindowToken(), 0);
         })
+        if(noteId!=0){
+            noteEditViewModel.getNote(0,noteId!!)
+        }
     }
 
     override fun onCreateLayout(): Int {

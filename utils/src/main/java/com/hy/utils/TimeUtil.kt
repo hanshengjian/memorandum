@@ -7,4 +7,9 @@ object TimeUtil {
         val sdf = SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(timeStamp)
     }
+
+    fun toDateHH_mm(timeStamp:Long):String{
+        val sdf = SimpleDateFormat("HH:mm");
+        return sdf.format(timeStamp)
+    }
 }

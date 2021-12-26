@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hy.common.arouter.Param
 import com.hy.common.arouter.Route
+import com.hy.utils.LogUtil
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import java.lang.reflect.Parameter
@@ -36,6 +37,7 @@ object NavigatorManager {
         if (method.isAnnotationPresent(Route::class.java)) {
             val annotation = method.getAnnotation(Route::class.java)
             navigatorMethod.path = annotation.path
+            LogUtil.i("NavigatorManager","route path:${annotation.path}")
             val parmametersAnnotation = method.parameterAnnotations;
             val parameterTypes = method.parameterTypes
             for (index in 0..parmametersAnnotation.size-1){

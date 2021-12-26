@@ -11,4 +11,5 @@ import com.hy.common.model.DicType
 interface DicManagerService:IProvider {
     fun getDicList(page:Int,expression:(List<DicType>?,String?)->Unit)
     fun addDicType(page:Int,title:String,expression:(Int,String?)->Unit)
+    fun getDicType(page:Int,id:Int,expression:(DicType?,String?)->Unit)
 }

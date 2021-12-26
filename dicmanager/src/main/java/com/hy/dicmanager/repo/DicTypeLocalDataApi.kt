@@ -45,4 +45,12 @@ class DicTypeLocalDataApi:DicTypeDataApi {
             throw e
         }
     }
+
+    override fun getDicType(page: Int, id: Int): DicType {
+        try {
+            return AppDatabaseInstance().dicTypeDao().getDicType(page,id)
+        }catch (e:Exception){
+            throw e
+        }
+    }
 }

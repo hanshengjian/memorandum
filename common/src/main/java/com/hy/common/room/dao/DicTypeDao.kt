@@ -18,8 +18,8 @@ interface DicTypeDao {
     @Query("select * from dic_type where page=:page")
     fun getDicTypes(page:Int):List<DicType>
 
-    @Query("select * from dic_type where id=:id")
-    fun getDicType(id:Int): DicType;
+    @Query("select * from dic_type where id=:id and page=:page")
+    fun getDicType(page:Int,id:Int): DicType;
 
     @Delete
     fun deleteDicType(dicType: DicType)

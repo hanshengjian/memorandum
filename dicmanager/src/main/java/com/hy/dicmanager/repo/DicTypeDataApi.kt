@@ -15,4 +15,6 @@ interface DicTypeDataApi {
     fun updateDicType(updateDicType:DicType):Int
 
     fun getDicTypes(page:Int):List<DicType>
+
+    fun getDicType(page:Int,id:Int):DicType
 }
