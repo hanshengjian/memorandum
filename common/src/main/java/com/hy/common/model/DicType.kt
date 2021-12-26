@@ -17,5 +17,6 @@ data class DicType(
     @ColumnInfo(name = "create_time") var createTime:Long = 0,
     @ColumnInfo(name = "modify_time") var modify_time:Long = 0,
     @ColumnInfo(name="author") var userId:String = "",
-    @ColumnInfo(name="parent") var parentType:Int = 0
+    @ColumnInfo(name="parent") var parentType:Int = 0,
+    @ColumnInfo(name = "size") var size:Int = 0
 )

@@ -44,10 +44,24 @@ class DicManagerServiceImpl:DicManagerService {
         })
     }
 
-    override fun getDicType(page: Int, id:Int,expression: (DicType?,String?) -> Unit) {
+    override fun getDicType(id:Int,expression: (DicType?,String?) -> Unit) {
         val dicTypeRepository = DicTypeRepository()
-        dicTypeRepository.getDicType(page,id,object : ReponseCall<DicType?>{
+        dicTypeRepository.getDicType(id,object : ReponseCall<DicType?>{
             override fun onResponse(t: DicType?) {
+                expression.invoke(t,"")
+            }
+
+            override fun onError(e: Exception) {
+                expression.invoke(null,e.message)
+            }
+
+        })
+    }
+
+    override fun updateDicType(dicType: DicType, expression: (Int?, String?) -> Unit) {
+        val dicTypeRepository = DicTypeRepository()
+        dicTypeRepository.updateDicType(dicType,object :ReponseCall<Int>{
+            override fun onResponse(t: Int) {
                 expression.invoke(t,"")
             }
 

@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_note_edit.*
 class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
     lateinit var noteEditViewModel: NoteEditViewModel
     lateinit var toolbar: Toolbar;
-    var dicType: DicType? = null;
     var noteId :Int ?=null
     override fun initView(){
         toolbar = findViewById(R.id.toolbar_note)
@@ -37,11 +36,10 @@ class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
             viewModel = noteEditViewModel
             dicSelectTv.setOnClickListener {
                 val dicPopuWin = DicPopupWin(0,this@NoteEditActivity){
-                    dicType = it
-                    dicType?.let {
+                    it?.let {
                         noteEditViewModel.type.value = it.id
                     }
-
+                    NoteMemCache.dicType = it
                 }
                 dicPopuWin.show(it)
             }

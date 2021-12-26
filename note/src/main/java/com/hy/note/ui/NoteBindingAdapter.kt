@@ -25,6 +25,7 @@ public class NoteBindingAdapter {
                 NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
                     ?.getDicType(0,type) { dicType, s ->
                         textView.text = dicType?.content
+                        NoteMemCache.dicType = dicType
                     }
             }
         }

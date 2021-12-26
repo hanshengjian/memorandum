@@ -21,6 +21,7 @@ class DicPopAdapter(var dicTypes:List<DicType> ?= null) : RecyclerView.Adapter<D
         val dicType = dicTypes?.get(position)
         dicType?.let {
             holder.mDicNameTv?.text = it.content
+            holder.dic_note_size
         }
     }
 
@@ -30,8 +31,10 @@ class DicPopAdapter(var dicTypes:List<DicType> ?= null) : RecyclerView.Adapter<D
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         var mDicNameTv:TextView ?=null
+        var mDicTypeSize:TextView?=null
         init {
             mDicNameTv = itemView.findViewById(R.id.dic_name)
+            mDicTypeSize = itemView.findViewById(R.id.dic_note_size)
         }
     }
 }

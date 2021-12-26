@@ -2,6 +2,7 @@ package com.hy.note.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hy.common.model.DicType
 import com.hy.common.model.Note
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
@@ -41,12 +42,10 @@ class NoteEditViewModel : ViewModel() {
                 val resObj = object : ReponseCall<Int> {
                     override fun onResponse(t: Int) {
                         saveSuccess.value = true
-                        // Toast.makeText(getApplication(),"保存成功",Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onError(e: Exception) {
                         saveSuccess.value = false
-                        //Toast.makeText(getApplication(),"保存失败",Toast.LENGTH_SHORT).show()
                     }
                 }
                 if(it>0){
@@ -55,6 +54,14 @@ class NoteEditViewModel : ViewModel() {
                 }else{
                     NoteRepository().addNote(note,resObj)
                 }
+            }
+            if(note.type>0 && NoteMemCache.dicType?.id == note.type){
+                //更新分类条数
+                NoteMemCache.dicType?.size?.plus(1)
+                NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
+                    ?.updateDicType(NoteMemCache.dicType!!){code,e->
+                        //更新type成功
+                    }
             }
 
 
@@ -75,5 +82,6 @@ class NoteEditViewModel : ViewModel() {
             override fun onError(e: Exception) {
             }
         })
+
     }
 }

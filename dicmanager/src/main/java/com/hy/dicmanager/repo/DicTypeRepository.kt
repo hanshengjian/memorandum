@@ -42,10 +42,10 @@ class DicTypeRepository {
          }
     }
 
-     fun getDicType(page:Int,id: Int, reponse: ReponseCall<DicType?>?) {
+     fun getDicType(id: Int, reponse: ReponseCall<DicType?>?) {
          ThreadPoolManager.threadPool.execute{
              try {
-                 val dicTypes = DicTypeLocalDataApi().getDicType(page,id)
+                 val dicTypes = DicTypeLocalDataApi().getDicType(id)
                  ThreadPoolManager.mainHandler.post {
                      reponse?.onResponse(dicTypes)
                  }
@@ -57,8 +57,19 @@ class DicTypeRepository {
          }
     }
 
-    fun updateDicType(newNote: DicType, reponse: ReponseCall<Int>?) {
-
+    fun updateDicType(updateDicType: DicType, reponse: ReponseCall<Int>?) {
+        ThreadPoolManager.threadPool.execute{
+            try {
+                val code = DicTypeLocalDataApi().updateDicType(updateDicType)
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(code)
+                }
+            }catch (e:Exception){
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+            }
+        }
     }
 
     fun deleteDicType(id: Int, reponse: ReponseCall<Int>){
