@@ -15,6 +15,8 @@ interface NoteDataApi {
 
     fun getNote(id:Int):Note
 
+    fun getNotesByType(type:Int):List<Note>
+
 
     fun updateNote(updateNote:Note):Int
 }

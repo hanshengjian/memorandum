@@ -16,8 +16,9 @@ class NoteListViewModel : ViewModel() {
     var empty: MutableLiveData<Boolean> = MutableLiveData(false)
     var notesLiveData: MutableLiveData<List<Note>>? = MutableLiveData(mutableListOf())
 
-    fun getNotes(): MutableLiveData<List<Note>>? {
-        NoteRepository().getNotes(object : ReponseCall<List<Note>> {
+    fun getNotes(type:Int = 0): MutableLiveData<List<Note>>? {
+
+        val resObj = object : ReponseCall<List<Note>> {
             override fun onResponse(t: List<Note>) {
                 if (!t.isEmpty()) {
                     notesLiveData?.value = t
@@ -30,7 +31,13 @@ class NoteListViewModel : ViewModel() {
             override fun onError(e: Exception) {
                 empty.value = true
             }
-        })
+        }
+        if(type == 0){
+            NoteRepository().getNotes(resObj)
+        }else{
+            NoteRepository().getNotesByType(type,resObj)
+        }
+
         return notesLiveData
 
     }

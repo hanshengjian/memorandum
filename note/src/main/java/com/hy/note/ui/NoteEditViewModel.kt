@@ -53,18 +53,16 @@ class NoteEditViewModel : ViewModel() {
                     NoteRepository().updateNote(note, resObj)
                 }else{
                     NoteRepository().addNote(note,resObj)
+                    if(note.type>0 && NoteMemCache.dicType?.id == note.type){
+                        //更新分类条数
+                        NoteMemCache.dicType?.size = NoteMemCache.dicType?.size?.plus(1)!!
+                        NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
+                            ?.updateDicType(NoteMemCache.dicType!!){code,e->
+                                //更新type成功
+                            }
+                    }
                 }
             }
-            if(note.type>0 && NoteMemCache.dicType?.id == note.type){
-                //更新分类条数
-                NoteMemCache.dicType?.size?.plus(1)
-                NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
-                    ?.updateDicType(NoteMemCache.dicType!!){code,e->
-                        //更新type成功
-                    }
-            }
-
-
         }
     }
 

@@ -35,6 +35,14 @@ class NoteLocalDataApi : NoteDataApi {
         }
     }
 
+    override fun getNotesByType(type: Int): List<Note> {
+        try {
+            return AppDatabaseInstance().noteDao().getNotesByType(type)
+        }catch (e:Exception){
+            return mutableListOf()
+        }
+    }
+
     override fun updateNote(updateNote: Note): Int {
         try {
             AppDatabaseInstance().noteDao().updateNote(updateNote)

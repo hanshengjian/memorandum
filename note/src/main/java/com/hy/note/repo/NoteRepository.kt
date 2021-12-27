@@ -46,6 +46,24 @@ class NoteRepository {
             }
         }
     }
+
+    fun getNotesByType(type:Int,reponse: ReponseCall<List<Note>>?) {
+        ThreadPoolManager.threadPool.execute(){
+            try {
+                val datas = NoteLocalDataApi().getNotesByType(type)
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(datas)
+                }
+
+            }catch (e:Exception){
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+
+            }
+        }
+    }
+
      fun getNote(id: Int,reponse:ReponseCall<Note>?){
         ThreadPoolManager.threadPool.execute(){
             try {

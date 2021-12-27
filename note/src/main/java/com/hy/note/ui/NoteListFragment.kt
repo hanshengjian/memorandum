@@ -37,13 +37,16 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         }
 
         dic_note_ll.setOnClickListener {
-            if(dicPopupWindow==null){
-                dicPopupWindow = DicPopupWin(0,activity)
+           // if(dicPopupWindow==null){
+            dicPopupWindow = DicPopupWin(0, activity){ type ->
+                //重新刷新数据
+                refreshData(type)
             }
-            if(dicPopupWindow!!.isShowing){
+
+            if (dicPopupWindow!!.isShowing) {
                 dic_arrow_iv.setImageResource(R.mipmap.arrow_down_bold)
                 dicPopupWindow!!.dismiss()
-            }else{
+            } else {
                 dic_arrow_iv.setImageResource(R.mipmap.arrow_up_bold)
                 dicPopupWindow!!.show(it)
             }
@@ -69,6 +72,20 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                 }
             }
         })
+    }
+
+    fun refreshData(type:Int?){
+        if (type != null) {
+            noteListiewModel.getNotes(type)?.observe(viewLifecycleOwner, Observer {
+                noteListAdapter.apply {
+                    notes = it
+                    if(it.isNotEmpty()){
+                        ll_empty.visibility = View.GONE
+                        notifyDataSetChanged()
+                    }
+                }
+            })
+        }
     }
 
 }

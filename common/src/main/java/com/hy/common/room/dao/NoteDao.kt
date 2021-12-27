@@ -18,8 +18,11 @@ interface NoteDao {
     fun updateNote(note:Note)
 
     @Query("select * from note")
-    fun getNotes():List<Note>;
+    fun getNotes():List<Note>
 
     @Query("select * from note where id=:id")
     fun getNote(id:Int):Note;
+
+    @Query("select * from note where type=:type")
+    fun getNotesByType(type:Int):List<Note>
 }

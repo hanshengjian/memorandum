@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.hy.common.R
 import com.hy.common.eventbus.CreateDicTypeEvent
+import com.hy.common.model.DicType
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.utils.UiUtil
@@ -23,7 +24,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @date:2021/12/13
  *
  */
-class DicPopupWin(val page: Int, val context: Context?) : PopupWindow(context),View.OnClickListener {
+class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> Unit) : PopupWindow(context),View.OnClickListener {
 
     var mConverll:View ?=null
     var mDicListRecyc:RecyclerView ?=null
@@ -47,11 +48,21 @@ class DicPopupWin(val page: Int, val context: Context?) : PopupWindow(context),V
     fun initView(root:View){
         mConverll = root.findViewById(R.id.cover_ll)
         root.findViewById<View>(R.id.pic_manager_tv).setOnClickListener(this)
+        root.findViewById<View>(R.id.all_data_rl).setOnClickListener(this)
+
 
         mDicListRecyc = root.findViewById(R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
         mDicPopAdapter =  DicPopAdapter()
         mDicListRecyc?.adapter = mDicPopAdapter
+        mDicListRecyc?.addOnItemTouchListener(ItemTouchHelper(context!!,object:ItemTouchHelper.OnItemTouchListenter{
+            override fun onItemClick(position: Int, childView: View?) {
+                dismiss()
+                val dicType = mDicPopAdapter?.dicTypes?.get(position)
+                expression.invoke(dicType?.id)
+            }
+        }))
+
 
         refreshDicList()
     }
@@ -75,6 +86,10 @@ class DicPopupWin(val page: Int, val context: Context?) : PopupWindow(context),V
             R.id.pic_manager_tv ->{
                 val dicPopupWin = DicManagerPopupWin(page,context!!)
                 dicPopupWin.show(v)
+            }
+            R.id.all_data_rl ->{
+                dismiss()
+                expression.invoke(0)
             }
         }
     }
