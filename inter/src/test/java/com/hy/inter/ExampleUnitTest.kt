@@ -1,4 +1,4 @@
-package com.hy.data
+package com.hy.inter
 
 import org.junit.Test
 

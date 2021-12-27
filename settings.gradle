@@ -1,12 +1,22 @@
-include ':inter'
-include ':hybrid'
-include ':advertisement'
-include ':dicmanager'
-include ':setting'
-include ':dataCompile'
 include ':app'
-include ':bedone'
-include ':note'
-include ':common'
-include ':utils'
 rootProject.name = "memorandum"
+
+def workDir = new File('E:/learnprojects/memorandum')
+def projects = ['advertisement','common','dicmanager','hybrid','note','setting','dataCompile']
+
+if(workDir!=null){
+    workDir.listFiles().each {projectDir ->
+        if(projectDir.isDirectory() && !projectDir.name.contains("app")
+                && !projectDir.name.contains(".git")
+                && !projectDir.name.contains(".gradle")
+                && !projectDir.name.contains(".idea")
+                && !projectDir.name.contains(".build")){
+            if (projects == null || projects.size() == 0 || projects.contains(projectDir.name)) {
+                include ":${projectDir.name}"
+                project(":${projectDir.name}").projectDir = projectDir
+            }
+        }
+    }
+}
+
+

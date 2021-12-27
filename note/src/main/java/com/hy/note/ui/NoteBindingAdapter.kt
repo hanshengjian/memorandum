@@ -23,7 +23,7 @@ public class NoteBindingAdapter {
                 textView.setText("未分类")
             }else{
                 NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
-                    ?.getDicType(0,type) { dicType, s ->
+                    ?.getDicType(type) { dicType, s ->
                         textView.text = dicType?.content
                         NoteMemCache.dicType = dicType
                     }

@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
 apply from: "../buildModule.gradle"
+//apply from: "../dependency.gradle"
+
 android {
     defaultConfig{
         versionCode 2
@@ -7,6 +9,17 @@ android {
     }
 }
 dependencies{
-    implementation project(":common")
-    implementation project(":utils")
+    def projects = rootProject.getChildProjects()
+    def projectsKey = ['utils','common']
+    projectsKey.each { key->
+        if (projects.containsKey(key)) {
+            implementation project(":$key")
+        } else {
+            //implementation 'androidx.core:core-ktx:1.3.2'
+            implementation rootProject.ext.android[key]
+        }
+    }
+
+//    implementation project(":common")
+//    implementation project(":utils")
 }

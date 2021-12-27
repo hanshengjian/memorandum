@@ -1,4 +1,4 @@
-package com.hy.data
+package com.hy.inter
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
