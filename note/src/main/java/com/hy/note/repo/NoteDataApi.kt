@@ -9,16 +9,17 @@ interface NoteDataApi {
 
     fun addNote(newNote:Note):Int
 
+    fun getNote(): List<Note>
 
-    fun getNote():List<Note>
+    fun getNote(id: Int): Note
 
+    fun getNotesByType(type: Int): List<Note>
 
-    fun getNote(id:Int):Note
+    fun updateNote(updateNote: Note): Int
 
-    fun getNotesByType(type:Int):List<Note>
+    fun getNotesSize(): Int
 
+    fun getNotesSizeNoType(): Int
 
-    fun updateNote(updateNote:Note):Int
-
-    fun getNotesSize():Int
+    fun getNotesByNoType(): List<Note>
 }

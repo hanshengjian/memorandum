@@ -3,7 +3,6 @@ package com.hy.note.repo
 import com.hy.common.model.Note
 import com.hy.common.repo.ReponseCall
 import com.hy.common.threadpool.ThreadPoolManager
-import java.lang.Exception
 
 /**
  * @Author Lenovo
@@ -113,4 +112,39 @@ class NoteRepository {
 
         }
     }
+
+    fun getNotesSizeNoType(reponse: ReponseCall<Int>?) {
+        ThreadPoolManager.threadPool.execute {
+            try {
+                val t: Int = NoteLocalDataApi().getNotesSizeNoType()
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(t)
+                }
+            } catch (e: Exception) {
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+            }
+
+        }
+    }
+
+    fun getNotesByNoType(reponse: ReponseCall<List<Note>>?) {
+        ThreadPoolManager.threadPool.execute() {
+            try {
+                val datas = NoteLocalDataApi().getNotesByNoType()
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(datas)
+                }
+
+            } catch (e: Exception) {
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+
+            }
+        }
+    }
+
+
 }

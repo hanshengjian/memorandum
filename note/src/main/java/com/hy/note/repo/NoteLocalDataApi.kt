@@ -2,7 +2,6 @@ package com.hy.note.repo
 
 import com.hy.common.model.Note
 import com.hy.common.room.AppDatabaseInstance
-import java.lang.Exception
 
 /**
  * @Author Lenovo
@@ -55,8 +54,24 @@ class NoteLocalDataApi : NoteDataApi {
     override fun getNotesSize(): Int {
         try {
             return AppDatabaseInstance().noteDao().getNotesSize()
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return -1
+        }
+    }
+
+    override fun getNotesSizeNoType(): Int {
+        try {
+            return AppDatabaseInstance().noteDao().getNoteSizeNoType()
+        } catch (e: Exception) {
+            return -1
+        }
+    }
+
+    override fun getNotesByNoType(): List<Note> {
+        try {
+            return AppDatabaseInstance().noteDao().getNotesByNoType()
+        } catch (e: Exception) {
+            return mutableListOf()
         }
     }
 }

@@ -7,7 +7,6 @@ import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.repo.ReponseCall
 import com.hy.note.repo.NoteRepository
-import java.lang.Exception
 
 /**
  * @Author Lenovo
@@ -32,10 +31,12 @@ class NoteListViewModel : ViewModel() {
                 empty.value = true
             }
         }
-        if(type == 0){
+        if (type == -1) {
             NoteRepository().getNotes(resObj)
-        }else{
-            NoteRepository().getNotesByType(type,resObj)
+        } else if (type == 0) {
+            NoteRepository().getNotesByNoType(resObj)
+        } else {
+            NoteRepository().getNotesByType(type, resObj)
         }
 
         return notesLiveData

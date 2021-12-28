@@ -18,14 +18,20 @@ interface NoteDao {
     fun updateNote(note:Note)
 
     @Query("select * from note")
-    fun getNotes():List<Note>
+    fun getNotes(): List<Note>
 
     @Query("select * from note where id=:id")
-    fun getNote(id:Int):Note;
+    fun getNote(id: Int): Note;
 
     @Query("select * from note where type=:type")
-    fun getNotesByType(type:Int):List<Note>
+    fun getNotesByType(type: Int): List<Note>
 
     @Query("select count(1) from note ")
-    fun getNotesSize():Int
+    fun getNotesSize(): Int
+
+    @Query("select count(1) from note where type=0")
+    fun getNoteSizeNoType(): Int
+
+    @Query("select * from note where type=0")
+    fun getNotesByNoType(): List<Note>
 }

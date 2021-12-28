@@ -9,10 +9,8 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.hy.common.R
 import com.hy.common.eventbus.CreateDicTypeEvent
-import com.hy.common.model.DicType
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
@@ -24,14 +22,16 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * @auther:hanshengjian
  * @date:2021/12/13
- *
+ * expression (code:Int) -1 全部，0 未分类 其他已分类
  */
-class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> Unit) : PopupWindow(context),View.OnClickListener {
+class DicPopupWin(val page: Int, val context: Context?, val expression: (code: Int?) -> Unit) :
+    PopupWindow(context), View.OnClickListener {
 
-    var mConverll:View ?=null
-    var mDicListRecyc:RecyclerView ?=null
-    var mDicPopAdapter:DicPopAdapter ?=null
-    var mAllDataSizeTv:TextView ?=null
+    var mConverll: View? = null
+    var mDicListRecyc: RecyclerView? = null
+    var mDicPopAdapter: DicPopAdapter? = null
+    var mAllDataSizeTv: TextView? = null
+    var mNoTypeTv: TextView? = null
 
     init {
         EventBus.getDefault().register(this)
@@ -51,9 +51,11 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
     fun initView(root:View){
         mConverll = root.findViewById(R.id.cover_ll)
         mAllDataSizeTv = root.findViewById(R.id.all_data_tv)
+        mNoTypeTv = root.findViewById(R.id.no_type_tv)
 
         root.findViewById<View>(R.id.pic_manager_tv).setOnClickListener(this)
         root.findViewById<View>(R.id.all_data_rl).setOnClickListener(this)
+        root.findViewById<View>(R.id.no_type_rl).setOnClickListener(this)
 
         mDicListRecyc = root.findViewById(R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
@@ -80,12 +82,19 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
             }
         }
 
-        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()?.getNoteSize{
-            result,message ->
-            if(result!=null && result>0){
-                mAllDataSizeTv?.text = result.toString()
+        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
+            ?.getNoteSize { result, message ->
+                if (result != null && result > 0) {
+                    mAllDataSizeTv?.text = result.toString()
+                }
             }
-        }
+
+        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
+            ?.getNotesSizeNoType { result, message ->
+                if (result != null && result > 0) {
+                    mNoTypeTv?.text = result.toString()
+                }
+            }
     }
 
 
@@ -95,12 +104,16 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
     }
 
     override fun onClick(v: View?) {
-        when(v?.id){
-            R.id.pic_manager_tv ->{
-                val dicPopupWin = DicManagerPopupWin(page,context!!)
+        when (v?.id) {
+            R.id.pic_manager_tv -> {
+                val dicPopupWin = DicManagerPopupWin(page, context!!)
                 dicPopupWin.show(v)
             }
-            R.id.all_data_rl ->{
+            R.id.all_data_rl -> {
+                dismiss()
+                expression.invoke(-1)
+            }
+            R.id.no_type_rl -> {
                 dismiss()
                 expression.invoke(0)
             }
