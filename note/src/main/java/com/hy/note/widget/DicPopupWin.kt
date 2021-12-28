@@ -36,7 +36,7 @@ class DicPopupWin(val page:Int,val context:Context,val expression:(DicType?)->Un
 
         mDicListRecyc = root.findViewById(com.hy.common.R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
-        mDicPopAdapter =  DicPopAdapter()
+        mDicPopAdapter =  DicPopAdapter(hasShowSize = false)
         mDicListRecyc?.adapter = mDicPopAdapter
         mDicListRecyc?.addOnItemTouchListener(ItemTouchHelper(context,object:ItemTouchHelper.OnItemTouchListenter{
             override fun onItemClick(position: Int, childView: View?) {

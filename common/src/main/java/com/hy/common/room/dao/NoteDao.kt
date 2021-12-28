@@ -25,4 +25,7 @@ interface NoteDao {
 
     @Query("select * from note where type=:type")
     fun getNotesByType(type:Int):List<Note>
+
+    @Query("select count(1) from note ")
+    fun getNotesSize():Int
 }

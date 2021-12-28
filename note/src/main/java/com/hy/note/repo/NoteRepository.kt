@@ -83,7 +83,7 @@ class NoteRepository {
     }
 
      fun updateNote(newNote: Note, reponse: ReponseCall<Int>?) {
-        ThreadPoolManager.threadPool.execute({
+        ThreadPoolManager.threadPool.execute{
             try {
                 val t:Int = NoteLocalDataApi().updateNote(newNote)
                 ThreadPoolManager.mainHandler.post {
@@ -95,6 +95,22 @@ class NoteRepository {
                 }
             }
 
-        })
+        }
+    }
+
+    fun getNotesSize(reponse:ReponseCall<Int>?){
+        ThreadPoolManager.threadPool.execute {
+            try {
+                val t: Int = NoteLocalDataApi().getNotesSize()
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(t)
+                }
+            } catch (e: Exception) {
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+            }
+
+        }
     }
 }

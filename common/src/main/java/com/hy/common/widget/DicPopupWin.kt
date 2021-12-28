@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
@@ -14,6 +15,7 @@ import com.hy.common.eventbus.CreateDicTypeEvent
 import com.hy.common.model.DicType
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
+import com.hy.common.navigator.NoteNavigator
 import com.hy.utils.UiUtil
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -29,6 +31,7 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
     var mConverll:View ?=null
     var mDicListRecyc:RecyclerView ?=null
     var mDicPopAdapter:DicPopAdapter ?=null
+    var mAllDataSizeTv:TextView ?=null
 
     init {
         EventBus.getDefault().register(this)
@@ -47,9 +50,10 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
 
     fun initView(root:View){
         mConverll = root.findViewById(R.id.cover_ll)
+        mAllDataSizeTv = root.findViewById(R.id.all_data_tv)
+
         root.findViewById<View>(R.id.pic_manager_tv).setOnClickListener(this)
         root.findViewById<View>(R.id.all_data_rl).setOnClickListener(this)
-
 
         mDicListRecyc = root.findViewById(R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
@@ -70,8 +74,17 @@ class DicPopupWin(val page: Int, val context: Context?,val expression:(Int?) -> 
     fun refreshDicList(){
         NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()?.getDicList(page){
                 dictypes,messsge->
-            mDicPopAdapter?.dicTypes = dictypes
-            mDicPopAdapter?.notifyDataSetChanged()
+            dictypes?.let {
+                mDicPopAdapter?.dicTypes = dictypes
+                mDicPopAdapter?.notifyDataSetChanged()
+            }
+        }
+
+        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()?.getNoteSize{
+            result,message ->
+            if(result!=null && result>0){
+                mAllDataSizeTv?.text = result.toString()
+            }
         }
     }
 

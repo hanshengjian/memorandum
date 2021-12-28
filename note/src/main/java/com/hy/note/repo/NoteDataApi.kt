@@ -19,4 +19,6 @@ interface NoteDataApi {
 
 
     fun updateNote(updateNote:Note):Int
+
+    fun getNotesSize():Int
 }

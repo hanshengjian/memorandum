@@ -51,4 +51,12 @@ class NoteLocalDataApi : NoteDataApi {
             return -1
         }
     }
+
+    override fun getNotesSize(): Int {
+        try {
+            return AppDatabaseInstance().noteDao().getNotesSize()
+        }catch (e:Exception){
+            return -1
+        }
+    }
 }

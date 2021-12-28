@@ -17,17 +17,17 @@
             android:paddingRight="15dp"
             android:gravity="center_vertical">
             <TextView
-                android:id="@+id/all_data_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="全部笔记">
             </TextView>
 
             <TextView
+                android:id="@+id/all_data_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="9"></TextView>
+             ></TextView>
         </RelativeLayout>
 
         <RelativeLayout

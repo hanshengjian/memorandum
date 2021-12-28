@@ -20,7 +20,6 @@
         android:layout_height="50dp"
         android:textSize="18sp"
         android:gravity="center"
-        android:text="9"
         android:layout_alignParentRight="true"
        ></TextView>
 </RelativeLayout>

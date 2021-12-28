@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.hy.common.R
 import com.hy.common.model.DicType
 
-class DicPopAdapter(var dicTypes:List<DicType> ?= null) : RecyclerView.Adapter<DicPopAdapter.ViewHolder>() {
+class DicPopAdapter(var dicTypes:List<DicType> ?= null,val hasShowSize:Boolean = true) : RecyclerView.Adapter<DicPopAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,7 +21,11 @@ class DicPopAdapter(var dicTypes:List<DicType> ?= null) : RecyclerView.Adapter<D
         val dicType = dicTypes?.get(position)
         dicType?.let {
             holder.mDicNameTv?.text = it.content
-            holder.mDicTypeSize?.text = if (it.size > 0) it.size.toString() else ""
+            if(hasShowSize){
+                holder.mDicTypeSize?.text = if (it.size > 0) it.size.toString() else ""
+            }else{
+                holder.mDicTypeSize?.visibility = View.GONE
+            }
         }
     }
 
