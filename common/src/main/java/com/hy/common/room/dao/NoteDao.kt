@@ -1,9 +1,6 @@
 package com.hy.common.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.hy.common.model.Note
 
 /**
@@ -34,4 +31,7 @@ interface NoteDao {
 
     @Query("select * from note where type=0")
     fun getNotesByNoType(): List<Note>
+
+    @Delete
+    fun deleteNote(note: Note)
 }

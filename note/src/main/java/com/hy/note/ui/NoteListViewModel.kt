@@ -43,12 +43,16 @@ class NoteListViewModel : ViewModel() {
 
     }
 
+    fun deleteNote(note: Note) {
+
+    }
+
 
     fun addClick() {
         NavigatorManager.getNavigator(NoteNavigator::class.java)?.addPage()
     }
 
-    fun editPage(id:Int) {
+    fun editPage(id: Int) {
         NavigatorManager.getNavigator(NoteNavigator::class.java)?.enterEditPage(id)
     }
 

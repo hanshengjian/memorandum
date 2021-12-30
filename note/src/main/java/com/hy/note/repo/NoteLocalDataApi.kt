@@ -74,4 +74,13 @@ class NoteLocalDataApi : NoteDataApi {
             return mutableListOf()
         }
     }
+
+    override fun delete(note: Note): Int {
+        try {
+            AppDatabaseInstance().noteDao().deleteNote(note)
+            return 0
+        } catch (e: Exception) {
+            return mutableListOf()
+        }
+    }
 }

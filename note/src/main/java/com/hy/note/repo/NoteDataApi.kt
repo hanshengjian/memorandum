@@ -22,4 +22,6 @@ interface NoteDataApi {
     fun getNotesSizeNoType(): Int
 
     fun getNotesByNoType(): List<Note>
+
+    fun delete(note: Note): Int
 }

@@ -146,5 +146,22 @@ class NoteRepository {
         }
     }
 
+    fun deleteNote(note: Note, reponse: ReponseCall<Int>) {
+        ThreadPoolManager.threadPool.execute() {
+            try {
+                val datas = NoteLocalDataApi().getNotesByNoType()
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onResponse(datas)
+                }
+
+            } catch (e: Exception) {
+                ThreadPoolManager.mainHandler.post {
+                    reponse?.onError(e)
+                }
+
+            }
+        }
+    }
+
 
 }
