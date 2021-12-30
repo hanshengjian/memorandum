@@ -149,9 +149,9 @@ class NoteRepository {
     fun deleteNote(note: Note, reponse: ReponseCall<Int>) {
         ThreadPoolManager.threadPool.execute() {
             try {
-                val datas = NoteLocalDataApi().getNotesByNoType()
+                val result = NoteLocalDataApi().delete(note)
                 ThreadPoolManager.mainHandler.post {
-                    reponse?.onResponse(datas)
+                    reponse?.onResponse(result)
                 }
 
             } catch (e: Exception) {

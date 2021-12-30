@@ -12,6 +12,7 @@ import com.hy.note.repo.NoteRepository
  * @Author Lenovo
  */
 class NoteListViewModel : ViewModel() {
+    var deleteNote = MutableLiveData<Note>()
     var empty: MutableLiveData<Boolean> = MutableLiveData(false)
     var notesLiveData: MutableLiveData<List<Note>>? = MutableLiveData(mutableListOf())
 
@@ -43,8 +44,19 @@ class NoteListViewModel : ViewModel() {
 
     }
 
-    fun deleteNote(note: Note) {
+    fun deleteNote(note: Note?) {
+        note?.let {
+            NoteRepository().deleteNote(it, object : ReponseCall<Int> {
+                override fun onResponse(t: Int) {
+                    deleteNote.value = note
+                }
 
+                override fun onError(e: java.lang.Exception) {
+                    deleteNote.value = null
+                }
+
+            })
+        }
     }
 
 

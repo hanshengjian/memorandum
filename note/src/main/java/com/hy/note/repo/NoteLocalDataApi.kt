@@ -2,18 +2,24 @@ package com.hy.note.repo
 
 import com.hy.common.model.Note
 import com.hy.common.room.AppDatabaseInstance
+import com.hy.utils.LogUtil
 
 /**
  * @Author Lenovo
  * 本地数据源
  */
 class NoteLocalDataApi : NoteDataApi {
+
+    companion object {
+        private const val TAG = "NoteLocalDataApi"
+    }
+
     @Throws(Exception::class)
-    override fun  addNote(newNote: Note):Int {
+    override fun addNote(newNote: Note): Int {
         try {
             AppDatabaseInstance().noteDao().addNote(newNote)
             return 0
-        }catch (e:Exception){
+        } catch (e: Exception) {
             throw e;
         }
     }
@@ -80,7 +86,8 @@ class NoteLocalDataApi : NoteDataApi {
             AppDatabaseInstance().noteDao().deleteNote(note)
             return 0
         } catch (e: Exception) {
-            return mutableListOf()
+            LogUtil.i(TAG, e.message + "")
+            return -1
         }
     }
 }

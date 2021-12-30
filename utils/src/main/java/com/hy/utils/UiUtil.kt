@@ -1,6 +1,8 @@
 package com.hy.utils
 
 import android.content.Context
+import android.util.DisplayMetrics
+import android.view.WindowManager
 
 /**
  * @auther:hanshengjian
@@ -27,5 +29,16 @@ object UiUtil {
     fun px2dip(context: Context, pxValue: Float): Int {
         val scale = context.resources.displayMetrics.density
         return (pxValue / scale + 0.5f).toInt()
+    }
+
+    fun getScreenSize(context: Context): DisplayMetrics? {
+        val dm = DisplayMetrics()
+        try {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            windowManager.defaultDisplay.getMetrics(dm)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return dm
     }
 }

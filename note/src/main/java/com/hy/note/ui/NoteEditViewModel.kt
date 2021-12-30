@@ -2,16 +2,12 @@ package com.hy.note.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hy.common.model.DicType
 import com.hy.common.model.Note
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.repo.ReponseCall
-import com.hy.common.repo.coroutines.NoteRepositoryCoroutine
 import com.hy.note.repo.NoteRepository
 import com.hy.utils.TimeUtil
-import java.lang.Exception
-import java.sql.Time
 
 /**
  * @Author Lenovo
@@ -23,6 +19,7 @@ class NoteEditViewModel : ViewModel() {
     var title = MutableLiveData<String?>()
     var time = MutableLiveData<String?>("今天" + TimeUtil.toDateHH_mm(System.currentTimeMillis()))
     var type = MutableLiveData<Int?>(0)
+    var deleteSuccess = MutableLiveData<Boolean>()
 
     fun saveNote() {
         //保存笔记

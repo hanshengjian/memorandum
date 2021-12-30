@@ -29,6 +29,7 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         return R.layout.fragment_note_list
     }
 
+
     override fun initView(root: View) {
         noteListiewModel = ViewModelProvider(this).get(NoteListViewModel::class.java)
         binding.apply {
@@ -51,7 +52,7 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
 
         noteListAdapter.menuItemListener = object : NoteListAdapter.onMenuItemListener {
             override fun deleteItem(position: Int, note: Note?) {
-
+                 noteListiewModel.deleteNote(note)
             }
 
             override fun toListOfTop() {
@@ -63,7 +64,15 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
             }
 
         }
+        noteListiewModel.deleteNote.observe(this, Observer {
+            if (it != null) {
+
+            } else {
+
+            }
+        })
     }
+
     override fun initData() {
         requestData()
         ElegantBus.getDefault("saveState")
