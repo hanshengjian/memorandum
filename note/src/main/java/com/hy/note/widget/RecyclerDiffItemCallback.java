@@ -1,4 +1,4 @@
-package com.hy.common.widget;
+package com.hy.note.widget;
 
 import androidx.recyclerview.widget.DiffUtil;
 

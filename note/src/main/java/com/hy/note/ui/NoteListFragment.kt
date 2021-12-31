@@ -10,9 +10,9 @@ import cody.bus.ObserverWrapper
 import com.hy.common.base.BaseFragment
 import com.hy.common.model.Note
 import com.hy.common.widget.DicPopupWin
-import com.hy.common.widget.RecyclerDiffItemCallback
 import com.hy.note.R
 import com.hy.note.databinding.FragmentNoteListBinding
+import com.hy.note.widget.RecyclerDiffItemCallback
 import kotlinx.android.synthetic.main.fragment_note_list.*
 
 
@@ -72,7 +72,10 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                 val olds = noteListAdapter.notes?.toMutableList()
                 noteListAdapter.notes?.remove(it)
                 val recycItemCallback =
-                    RecyclerDiffItemCallback(olds, noteListAdapter.notes)
+                    RecyclerDiffItemCallback(
+                        olds,
+                        noteListAdapter.notes
+                    )
                 val diffResult = DiffUtil.calculateDiff(recycItemCallback, true)
                 diffResult.dispatchUpdatesTo(noteListAdapter)
             } else {
