@@ -2,7 +2,7 @@ include ':app'
 rootProject.name = "memorandum"
 
 def workDir = new File('E:/learnprojects/memorandum')
-def projects = ['advertisement','common','dicmanager','hybrid','note','setting','dataCompile']
+def projects = ['advertisement','common','dicmanager','hybrid','note','setting','dataCompile','utils']
 
 if(workDir!=null){
     workDir.listFiles().each {projectDir ->

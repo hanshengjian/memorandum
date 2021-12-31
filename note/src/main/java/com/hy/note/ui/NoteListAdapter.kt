@@ -15,7 +15,7 @@ import com.hy.note.databinding.ItemNoteBinding
 class NoteListAdapter(var block: (note: Note) -> Unit) :
     RecyclerView.Adapter<NoteListAdapter.ViewHolder>(), View.OnClickListener {
 
-    var notes: List<Note>? = null
+    var notes: MutableList<Note>? = null
     var menuItemListener: onMenuItemListener? = null
 
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
