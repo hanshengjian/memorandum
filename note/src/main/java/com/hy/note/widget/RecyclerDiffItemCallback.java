@@ -54,7 +54,7 @@ public class RecyclerDiffItemCallback extends DiffUtil.Callback {
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
         Note oldNote = olds.get(oldItemPosition);
-        Note newNote = olds.get(newItemPosition);
+        Note newNote = news.get(newItemPosition);
 
         if (oldNote.getId() == newNote.getId() &&
                 oldNote.getContent().equals(newNote.getContent()) &&

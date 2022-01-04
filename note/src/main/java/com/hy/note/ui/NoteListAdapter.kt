@@ -12,7 +12,7 @@ import com.hy.note.databinding.ItemNoteBinding
 /**
  * @Author Lenovo
  */
-class NoteListAdapter(var block: (note: Note) -> Unit) :
+class NoteListAdapter() :
     RecyclerView.Adapter<NoteListAdapter.ViewHolder>(), View.OnClickListener {
 
     var notes: MutableList<Note>? = null
@@ -45,9 +45,6 @@ class NoteListAdapter(var block: (note: Note) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         notes?.get(position)?.let { holder.setContent(it) }
-        holder.itemView.setOnClickListener {
-            block.invoke(notes?.get(position)!!)
-        }
         holder.viewDataBinding.noteRecycerItem.apply()
         holder.viewDataBinding.deleteBtn.setOnClickListener(this)
         holder.viewDataBinding.topBtn.setOnClickListener(this)
@@ -81,4 +78,7 @@ class NoteListAdapter(var block: (note: Note) -> Unit) :
     }
 
 
+    fun clearData() {
+        notes?.clear()
+    }
 }

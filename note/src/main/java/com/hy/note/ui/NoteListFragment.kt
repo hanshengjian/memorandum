@@ -10,6 +10,7 @@ import cody.bus.ObserverWrapper
 import com.hy.common.base.BaseFragment
 import com.hy.common.model.Note
 import com.hy.common.widget.DicPopupWin
+import com.hy.common.widget.ItemTouchHelper
 import com.hy.note.R
 import com.hy.note.databinding.FragmentNoteListBinding
 import com.hy.note.widget.RecyclerDiffItemCallback
@@ -20,12 +21,15 @@ import kotlinx.android.synthetic.main.fragment_note_list.*
  * @Author Lenovo
  */
 class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
+
+    companion object {
+        const val TAG = "NoteListFragment";
+    }
+
     lateinit var noteListiewModel: NoteListViewModel;
-    var dicPopupWindow:DicPopupWin?=null
+    var dicPopupWindow: DicPopupWin? = null
     private val noteListAdapter by lazy {
-        NoteListAdapter(){
-            noteListiewModel.editPage(it.id.toInt())
-        }
+        NoteListAdapter()
     }
 
     override fun onCreateLayout(): Int {
@@ -82,6 +86,19 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                 Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show()
             }
         })
+
+        binding.recycNoteList?.addOnItemTouchListener(
+            ItemTouchHelper(context!!,
+                object : ItemTouchHelper.OnItemTouchListenter {
+                    override fun onItemClick(position: Int, childView: View?) {
+                        val note = noteListAdapter?.notes?.get(position)
+                        if (note != null) {
+                            noteListiewModel.editPage(note.id.toInt())
+                        }
+                    }
+                })
+        )
+
     }
 
     override fun initData() {
@@ -92,25 +109,42 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                     requestData()
                 }
             })
+        noteListiewModel.notesLiveData?.observe(viewLifecycleOwner, Observer {
+            noteListAdapter.apply {
+                if (it.isNullOrEmpty()) {
+                    clearData()
+                    notifyDataSetChanged()
+                } else {
+                    val olds = if (notes == null) mutableListOf() else notes
+                    diffRefresh(olds!!, it as MutableList<Note>)
+                    notes = it
+                }
+                if (it.isNotEmpty()) {
+                    ll_empty.visibility = View.GONE
+                } else {
+                    ll_empty.visibility = View.VISIBLE
+                }
+            }
+        })
     }
 
-    fun requestData(){
+    fun diffRefresh(olds: MutableList<Note>, news: MutableList<Note>) {
+        val recycItemCallback =
+            RecyclerDiffItemCallback(
+                olds,
+                news
+            )
+        val diffResult = DiffUtil.calculateDiff(recycItemCallback, true)
+        diffResult.dispatchUpdatesTo(noteListAdapter)
+    }
+
+    fun requestData() {
         refreshData(type = -1)
     }
 
-    fun refreshData(type:Int?){
+    fun refreshData(type: Int?) {
         if (type != null) {
-            noteListiewModel.getNotes(type)?.observe(viewLifecycleOwner, Observer {
-                noteListAdapter.apply {
-                    notes = it as MutableList<Note>?
-                    if (it.isNotEmpty()) {
-                        ll_empty.visibility = View.GONE
-                    } else {
-                        ll_empty.visibility = View.VISIBLE
-                    }
-                    notifyDataSetChanged()
-                }
-            })
+            noteListiewModel.getNotes(type)
         }
     }
 

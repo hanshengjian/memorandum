@@ -18,16 +18,17 @@ class NoteListViewModel : ViewModel() {
     }
 
     var deleteNote = MutableLiveData<Note>()
-    var empty: MutableLiveData<Boolean> = MutableLiveData(false)
-    var notesLiveData: MutableLiveData<List<Note>>? = MutableLiveData(mutableListOf())
+    var empty: MutableLiveData<Boolean> = MutableLiveData()
+    var notesLiveData: MutableLiveData<List<Note>>? = MutableLiveData()
 
-    fun getNotes(type: Int = 0): MutableLiveData<List<Note>>? {
-
+    fun getNotes(type: Int = 0) {
         val resObj = object : ReponseCall<List<Note>> {
             override fun onResponse(t: List<Note>) {
                 if (!t.isEmpty()) {
+                    LogUtil.i(TAG, "onResponse size:" + t.size)
                     notesLiveData?.value = t
                 } else {
+                    LogUtil.i(TAG, "onResponse size:0")
                     notesLiveData?.value = mutableListOf()
                 }
 
@@ -45,9 +46,6 @@ class NoteListViewModel : ViewModel() {
         } else {
             NoteRepository().getNotesByType(type, resObj)
         }
-
-        return notesLiveData
-
     }
 
     fun deleteNote(note: Note?) {
