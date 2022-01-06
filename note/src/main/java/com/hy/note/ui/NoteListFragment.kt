@@ -87,23 +87,11 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                     )
                 val diffResult = DiffUtil.calculateDiff(recycItemCallback, true)
                 diffResult.dispatchUpdatesTo(noteListAdapter)
+                noteListAdapter.notes?.isEmpty()?.let { it1 -> emptyView(it1) }
             } else {
                 Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show()
             }
         })
-
-//        binding.recycNoteList?.addOnItemTouchListener(
-//            ItemTouchHelper(context!!,
-//                object : ItemTouchHelper.OnItemTouchListenter {
-//                    override fun onItemClick(position: Int, childView: View?) {
-//                        val note = noteListAdapter?.notes?.get(position)
-//                        if (note != null) {
-//                            noteListiewModel.editPage(note.id.toInt())
-//                        }
-//                    }
-//                })
-//        )
-
     }
 
     override fun initData() {
@@ -124,13 +112,17 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                     diffRefresh(olds!!, it as MutableList<Note>)
                     notes = it
                 }
-                if (it.isNotEmpty()) {
-                    ll_empty.visibility = View.GONE
-                } else {
-                    ll_empty.visibility = View.VISIBLE
-                }
+                emptyView(it.isEmpty())
             }
         })
+    }
+
+    fun emptyView(empty: Boolean) {
+        if (empty) {
+            ll_empty.visibility = View.VISIBLE
+        } else {
+            ll_empty.visibility = View.GONE
+        }
     }
 
     fun diffRefresh(olds: MutableList<Note>, news: MutableList<Note>) {
