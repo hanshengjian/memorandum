@@ -1,6 +1,7 @@
 package com.hy.common.widget
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hy.common.R
 import com.hy.common.eventbus.CreateDicTypeEvent
+import com.hy.common.model.DicType
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
@@ -24,7 +26,11 @@ import org.greenrobot.eventbus.ThreadMode
  * @date:2021/12/13
  * expression (code:Int) -1 全部，0 未分类 其他已分类
  */
-class DicPopupWin(val page: Int, val context: Context?, val expression: (code: Int?) -> Unit) :
+class DicPopupWin(
+    val page: Int,
+    val context: Context?,
+    val expression: (dicType: DicType?) -> Unit
+) :
     PopupWindow(context), View.OnClickListener {
 
     var mConverll: View? = null
@@ -39,6 +45,7 @@ class DicPopupWin(val page: Int, val context: Context?, val expression: (code: I
         contentView = view
         this.width = ViewGroup.LayoutParams.MATCH_PARENT
         this.height = UiUtil.dip2px(context,500f)
+        setBackgroundDrawable(BitmapDrawable())
         setOutsideTouchable(true)
         setFocusable(true)
 
@@ -61,13 +68,16 @@ class DicPopupWin(val page: Int, val context: Context?, val expression: (code: I
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
         mDicPopAdapter =  DicPopAdapter()
         mDicListRecyc?.adapter = mDicPopAdapter
-        mDicListRecyc?.addOnItemTouchListener(ItemTouchHelper(context!!,object:ItemTouchHelper.OnItemTouchListenter{
-            override fun onItemClick(position: Int, childView: View?) {
-                dismiss()
-                val dicType = mDicPopAdapter?.dicTypes?.get(position)
-                expression.invoke(dicType?.id)
-            }
-        }))
+        mDicListRecyc?.addOnItemTouchListener(
+            ItemTouchHelper(context!!,
+                object : ItemTouchHelper.OnItemTouchListenter {
+                    override fun onItemClick(position: Int, childView: View?) {
+                        dismiss()
+                        val dicType = mDicPopAdapter?.dicTypes?.get(position)
+                        expression.invoke(dicType)
+                    }
+                })
+        )
 
 
         refreshDicList()
@@ -111,11 +121,11 @@ class DicPopupWin(val page: Int, val context: Context?, val expression: (code: I
             }
             R.id.all_data_rl -> {
                 dismiss()
-                expression.invoke(-1)
+                expression.invoke(DicType(id = -1, content = "全部笔记"))
             }
             R.id.no_type_rl -> {
                 dismiss()
-                expression.invoke(0)
+                expression.invoke(DicType(id = 0, content = "未分类"))
             }
         }
     }

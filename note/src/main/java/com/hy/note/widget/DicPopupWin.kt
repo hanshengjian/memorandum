@@ -1,9 +1,9 @@
 package com.hy.note.widget
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +25,7 @@ class DicPopupWin(val page:Int,val context:Context,val expression:(DicType?)->Un
 
         this.width = UiUtil.dip2px(context,200f)
         this.height = UiUtil.dip2px(context,400f)
-
+        setBackgroundDrawable(BitmapDrawable())
         setOutsideTouchable(true)
         setFocusable(true)
 

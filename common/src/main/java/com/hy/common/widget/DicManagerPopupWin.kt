@@ -2,6 +2,7 @@ package com.hy.common.widget
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
@@ -16,6 +17,7 @@ class DicManagerPopupWin(val page:Int,val context:Context):PopupWindow(context) 
     init {
         val rootView = LayoutInflater.from(context).inflate(R.layout.dic_manager_popup, null, false)
         contentView = rootView
+        setBackgroundDrawable(BitmapDrawable())
         setOutsideTouchable(true)
         setFocusable(true)
 

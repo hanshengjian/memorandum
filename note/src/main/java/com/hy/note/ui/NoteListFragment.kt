@@ -48,7 +48,8 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
             dic_arrow_iv.setImageResource(R.mipmap.arrow_down_bold)
             dicPopupWindow = DicPopupWin(0, activity) { type ->
                 //重新刷新数据
-                refreshData(type)
+                type_name_tv.text = type?.content
+                refreshData(type?.id)
             }
             dicPopupWindow!!.setOnDismissListener {
                 dic_arrow_iv.setImageResource(R.mipmap.arrow_up_bold)
