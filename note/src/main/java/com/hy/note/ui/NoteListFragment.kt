@@ -10,7 +10,6 @@ import cody.bus.ObserverWrapper
 import com.hy.common.base.BaseFragment
 import com.hy.common.model.Note
 import com.hy.common.widget.DicPopupWin
-import com.hy.common.widget.ItemTouchHelper
 import com.hy.note.R
 import com.hy.note.databinding.FragmentNoteListBinding
 import com.hy.note.widget.RecyclerDiffItemCallback
@@ -59,7 +58,7 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
 
         noteListAdapter.menuItemListener = object : NoteListAdapter.onMenuItemListener {
             override fun deleteItem(position: Int, note: Note?) {
-                 noteListiewModel.deleteNote(note)
+                noteListiewModel.deleteNote(note)
             }
 
             override fun toListOfTop() {
@@ -68,6 +67,12 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
 
             override fun moteToOtherDic() {
                 //todo
+            }
+
+            override fun onItemClick(note: Note?) {
+                note?.let {
+                    noteListiewModel.editPage(it.id.toInt())
+                }
             }
 
         }
@@ -87,17 +92,17 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
             }
         })
 
-        binding.recycNoteList?.addOnItemTouchListener(
-            ItemTouchHelper(context!!,
-                object : ItemTouchHelper.OnItemTouchListenter {
-                    override fun onItemClick(position: Int, childView: View?) {
-                        val note = noteListAdapter?.notes?.get(position)
-                        if (note != null) {
-                            noteListiewModel.editPage(note.id.toInt())
-                        }
-                    }
-                })
-        )
+//        binding.recycNoteList?.addOnItemTouchListener(
+//            ItemTouchHelper(context!!,
+//                object : ItemTouchHelper.OnItemTouchListenter {
+//                    override fun onItemClick(position: Int, childView: View?) {
+//                        val note = noteListAdapter?.notes?.get(position)
+//                        if (note != null) {
+//                            noteListiewModel.editPage(note.id.toInt())
+//                        }
+//                    }
+//                })
+//        )
 
     }
 

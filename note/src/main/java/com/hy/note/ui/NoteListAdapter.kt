@@ -49,16 +49,19 @@ class NoteListAdapter() :
         holder.viewDataBinding.deleteBtn.setOnClickListener(this)
         holder.viewDataBinding.topBtn.setOnClickListener(this)
         holder.viewDataBinding.moveBtn.setOnClickListener(this)
+        holder.viewDataBinding.leftLayout.setOnClickListener(this)
 
         holder.viewDataBinding.deleteBtn.tag = position
         holder.viewDataBinding.topBtn.tag = position
         holder.viewDataBinding.moveBtn.tag = position
+        holder.viewDataBinding.leftLayout.tag = position
     }
 
     interface onMenuItemListener {
         fun deleteItem(position: Int, note: Note?)
         fun toListOfTop()
         fun moteToOtherDic()
+        fun onItemClick(note: Note?)
     }
 
     override fun onClick(v: View?) {
@@ -73,6 +76,11 @@ class NoteListAdapter() :
             }
             R.id.move_btn -> {
                 menuItemListener?.moteToOtherDic()
+            }
+            R.id.leftLayout -> {
+                val postion = v.tag as Int
+                val note = notes?.get(postion)
+                menuItemListener?.onItemClick(note)
             }
         }
     }

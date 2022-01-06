@@ -67,11 +67,12 @@ class NoteEditViewModel : ViewModel() {
     fun getNote(page:Int,noteId: Int) {
         NoteRepository().getNote(noteId, object : ReponseCall<Note> {
             override fun onResponse(t: Note) {
-                title.value = t.title
-                content.value = t.content
-                time.value = TimeUtil.toDateyyyy_MM_DD(t.createTime)
-                type.value = t.type
-
+                if (t != null) {
+                    title.value = t.title
+                    content.value = t.content
+                    time.value = TimeUtil.toDateyyyy_MM_DD(t.createTime)
+                    type.value = t.type
+                }
             }
 
             override fun onError(e: Exception) {
