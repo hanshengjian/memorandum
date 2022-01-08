@@ -1,8 +1,6 @@
 package com.hy.memorandum
 
-import android.app.Application
-import android.content.Context
-import androidx.multidex.MultiDex
+
 import cody.bus.ElegantBus
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hy.common.base.BaseApp

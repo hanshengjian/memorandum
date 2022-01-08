@@ -1,4 +1,10 @@
 include ':app'
+setBinding(new Binding([gradle: this]))
+evaluate(new File(
+  settingsDir,
+  'my_flutter_module/.android/include_flutter.groovy'
+))
+
 rootProject.name = "memorandum"
 
 def workDir = new File('E:/learnprojects/memorandum')
@@ -19,4 +25,4 @@ if(workDir!=null){
     }
 }
 
-
+include ':my_flutter_module'

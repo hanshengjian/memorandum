@@ -33,9 +33,14 @@ dependencies {
         if (projects.containsKey(key)) {
             implementation project(":$key")
         } else {
-            implementation rootProject.ext.android[key]
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
+            def moduleVer = properties.getProperty("$key")
+            println "moduleVer:" + moduleVer
+            implementation "$moduleVer"
         }
     }
+    implementation project(path: ':flutter')
 
 
 }
