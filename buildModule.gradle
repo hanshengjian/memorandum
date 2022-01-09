@@ -1,14 +1,13 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply from: "../config.gradle"
 android {
-    compileSdkVersion rootProject.ext.android.compileSdkVersion
-    buildToolsVersion rootProject.ext.android.buildToolsVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
         kapt {
@@ -47,17 +46,17 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.2.0'
-    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.android.recyclerviewVersion"
+    implementation "androidx.recyclerview:recyclerview:${recyclerviewVersion}"
     implementation 'com.google.android.material:material:1.2.0'
 
-    implementation "androidx.room:room-runtime:$rootProject.ext.android.room_version"
-    kapt "androidx.room:room-compiler:$rootProject.ext.android.room_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.ext.android.kotlinx_coroutines"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.ext.android.kotlinx_coroutines"
+    implementation "androidx.room:room-runtime:${room_version}"
+    kapt "androidx.room:room-compiler:${room_version}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinx_coroutines}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlinx_coroutines}"
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.alibaba:arouter-api:1.4.1'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
-    implementation "com.github.codyer.ElegantBus:core:$rootProject.ext.android.elegantbus"
+    implementation "com.github.codyer.ElegantBus:core:${elegantbus}"
     implementation "org.greenrobot:eventbus:3.3.1"
     implementation 'com.tencent:mmkv:1.2.11'
 }

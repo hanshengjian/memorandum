@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply from: "../buildModule.gradle"
-apply from: "../dependency.gradle"
+//apply from: "../dependency.gradle"
 
 android {
     defaultConfig {
@@ -30,10 +30,16 @@ dependencies {
     def projects = rootProject.getChildProjects()
     def projectsKey = ['utils','common','note','bedone','dicmanager']
     projectsKey.each { key->
+       // println "projects:" + projects
         if (projects.containsKey(key)) {
             implementation project(":$key")
         } else {
-            implementation rootProject.ext.android[key]
+            def propFile = file("../gradle.properties")
+            def props = new Properties()
+            props.load(new FileInputStream(propFile))
+            def moduleVersion = props.getProperty("$key")
+           // println "moduleVersion:" + moduleVersion
+            implementation moduleVersion
         }
     }
 
