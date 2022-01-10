@@ -12,7 +12,10 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import com.hy.bedone.BeDoneFragment
+import com.hy.common.flutter.MemFlutterActivity
+import com.hy.common.flutter.MemFlutterConstants
 import com.hy.note.ui.NoteListFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -43,6 +46,10 @@ class MainActivity : AppCompatActivity() {
             imageView.setImageResource(images[tabs.indexOf(it)]);
 
             tablayout!!.getTabAt(tabs.indexOf(it))!!.setCustomView(tabview);
+        }
+
+        top_menu_iv.setOnClickListener {
+            MemFlutterActivity.toSettingPage(this@MainActivity,"main", MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL)
         }
     }
 
