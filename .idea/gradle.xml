@@ -16,8 +16,11 @@
             <option value="$PROJECT_DIR$/dataCompile" />
             <option value="$PROJECT_DIR$/dicmanager" />
             <option value="$PROJECT_DIR$/hybrid" />
+            <option value="$PROJECT_DIR$/my_flutter_module" />
+            <option value="$PROJECT_DIR$/my_flutter_module/.android/Flutter" />
             <option value="$PROJECT_DIR$/note" />
             <option value="$PROJECT_DIR$/setting" />
+            <option value="$PROJECT_DIR$/utils" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
