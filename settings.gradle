@@ -17,7 +17,7 @@ if(workDir!=null){
                 && !projectDir.name.contains(".gradle")
                 && !projectDir.name.contains(".idea")
                 && !projectDir.name.contains(".build")){
-            if (projects == null || projects.size() == 0 || projects.contains(projectDir.name)) {
+            if (projects.contains(projectDir.name)) {
                 include ":${projectDir.name}"
                 project(":${projectDir.name}").projectDir = projectDir
             }

@@ -9,11 +9,11 @@ dependencies{
         if (projects.containsKey(key)) {
             implementation project(":$key")
         } else {
-            Properties properties = new Properties()
-            properties.load(project.rootProject.file('gradle.properties').newDataInputStream())
-            def moduleVer = properties.getProperty("$key")
-            println "moduleVer:" + moduleVer
-            implementation "$moduleVer"
+            def propFile = file("../gradle.properties")
+            def props = new Properties()
+            props.load(new FileInputStream(propFile))
+            def moduleVersion = props.getProperty("$key")
+            implementation moduleVersion
         }
     }
     implementation "androidx.multidex:multidex:2.0.1"
