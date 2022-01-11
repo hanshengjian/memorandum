@@ -1,23 +1,21 @@
 package com.hy.common.repo.coroutines
 
 import com.hy.common.model.Note
-import com.hy.datacompile.DataApi
-import com.hy.datacompile.DataMethod
 
 /**
  * @Author Lenovo
  */
-@DataApi
+//@DataApi(local = NoteLocalDataApiCoroutine::class)
 interface NoteDataApiCoroutine {
-    @DataMethod
+    // @DataMethod
     suspend fun addNote(newNote:Note):Int
 
-    @DataMethod
+    // @DataMethod
     suspend fun getNote():List<Note>
 
-    @DataMethod
+    // @DataMethod
     suspend fun getNote(id:Int):Note
 
-    @DataMethod
+    //  @DataMethod
     suspend fun updateNote(updateNote:Note):Int
 }

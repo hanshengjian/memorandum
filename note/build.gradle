@@ -22,6 +22,8 @@ dependencies{
             implementation moduleVersion
         }
     }
+    implementation project(":dataCompile")
+    kapt project(":dataCompile")
 
 //    implementation project(":common")
 //    implementation project(":utils")
