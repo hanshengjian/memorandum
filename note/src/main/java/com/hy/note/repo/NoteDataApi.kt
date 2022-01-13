@@ -14,20 +14,26 @@ interface NoteDataApi {
     fun addNote(newNote: Note): Int
 
     @DataMethod
-    fun getNote(): List<Note>
+    fun getNotes(): List<Note>
 
     @DataMethod
     fun getNote(id: Int): Note
 
+    @DataMethod
     fun getNotesByType(type: Int): List<Note>
 
+    @DataMethod
     fun updateNote(updateNote: Note): Int
 
+    @DataMethod
     fun getNotesSize(): Int
 
+    @DataMethod
     fun getNotesSizeNoType(): Int
 
+    @DataMethod
     fun getNotesByNoType(): List<Note>
 
-    fun delete(note: Note): Int
+    @DataMethod
+    fun deleteNote(note: Note): Int
 }

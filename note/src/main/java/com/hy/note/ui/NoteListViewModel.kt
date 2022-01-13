@@ -6,7 +6,7 @@ import com.hy.common.model.Note
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.repo.ReponseCall
-import com.hy.note.repo.NoteRepository
+import com.hy.note.repo.NoteDataApiRepository
 import com.hy.utils.LogUtil
 
 /**
@@ -40,17 +40,17 @@ class NoteListViewModel : ViewModel() {
             }
         }
         if (type == -1) {
-            NoteRepository().getNotes(resObj)
+            NoteDataApiRepository().getNotes(resObj)
         } else if (type == 0) {
-            NoteRepository().getNotesByNoType(resObj)
+            NoteDataApiRepository().getNotesByNoType(resObj)
         } else {
-            NoteRepository().getNotesByType(type, resObj)
+            NoteDataApiRepository().getNotesByType(type, resObj)
         }
     }
 
     fun deleteNote(note: Note?) {
         note?.let {
-            NoteRepository().deleteNote(it, object : ReponseCall<Int> {
+            NoteDataApiRepository().deleteNote(it, object : ReponseCall<Int> {
                 override fun onResponse(t: Int) {
                     deleteNote.value = note
                 }

@@ -24,10 +24,10 @@ class NoteLocalDataApi : NoteDataApi {
         }
     }
 
-    override fun getNote(): List<Note> {
+    override fun getNotes(): List<Note> {
         try {
             return AppDatabaseInstance().noteDao().getNotes();
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return mutableListOf()
         }
     }
@@ -81,7 +81,7 @@ class NoteLocalDataApi : NoteDataApi {
         }
     }
 
-    override fun delete(note: Note): Int {
+    override fun deleteNote(note: Note): Int {
         try {
             AppDatabaseInstance().noteDao().deleteNote(note)
             return 0

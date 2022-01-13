@@ -6,7 +6,9 @@ import com.hy.common.threadpool.ThreadPoolManager
 
 /**
  * @Author Lenovo
+ * @Deprecated
  */
+@Deprecated(message = "Deprecated,生成类代替")
 class NoteRepository {
 
     companion object{
@@ -32,7 +34,7 @@ class NoteRepository {
      fun getNotes(reponse: ReponseCall<List<Note>>?) {
         ThreadPoolManager.threadPool.execute(){
             try {
-                val datas = NoteLocalDataApi().getNote();
+                val datas = NoteLocalDataApi().getNotes()
                 ThreadPoolManager.mainHandler.post {
                     reponse?.onResponse(datas)
                 }
@@ -149,7 +151,7 @@ class NoteRepository {
     fun deleteNote(note: Note, reponse: ReponseCall<Int>) {
         ThreadPoolManager.threadPool.execute() {
             try {
-                val result = NoteLocalDataApi().delete(note)
+                val result = NoteLocalDataApi().deleteNote(note)
                 ThreadPoolManager.mainHandler.post {
                     reponse?.onResponse(result)
                 }

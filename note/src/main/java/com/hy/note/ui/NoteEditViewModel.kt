@@ -6,7 +6,7 @@ import com.hy.common.model.Note
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.repo.ReponseCall
-import com.hy.note.repo.NoteRepository
+import com.hy.note.repo.NoteDataApiRepository
 import com.hy.utils.TimeUtil
 
 /**
@@ -47,9 +47,9 @@ class NoteEditViewModel : ViewModel() {
                 }
                 if(it>0){
                     note.id = it.toLong()
-                    NoteRepository().updateNote(note, resObj)
+                    NoteDataApiRepository().updateNote(note, resObj)
                 }else{
-                    NoteRepository().addNote(note,resObj)
+                    NoteDataApiRepository().addNote(note, resObj)
                     if(note.type>0 && NoteMemCache.dicType?.id == note.type){
                         //更新分类条数
                         NoteMemCache.dicType?.size = NoteMemCache.dicType?.size?.plus(1)!!
@@ -65,7 +65,7 @@ class NoteEditViewModel : ViewModel() {
 
 
     fun getNote(page:Int,noteId: Int) {
-        NoteRepository().getNote(noteId, object : ReponseCall<Note> {
+        NoteDataApiRepository().getNote(noteId, object : ReponseCall<Note> {
             override fun onResponse(t: Note) {
                 if (t != null) {
                     title.value = t.title

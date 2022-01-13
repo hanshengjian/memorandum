@@ -70,21 +70,13 @@ public class DataApiProcessor:AbstractProcessor(){
                 val packageElement = elementUtils.getPackageOf(classElement)
                 //包名
                 val packageName = packageElement.qualifiedName.toString()
-                val className = "${
-                    classElement.simpleName.subSequence(
-                        0,
-                        classElement.simpleName.length - 7
-                    )
-                }RepositoryG"
-                val noteRepositoryFile = ClassName(
-                    "${packageElement.qualifiedName}",
-                    className
-                )
+                val className = "${classElement.simpleName}Repository"
                 val repositoryTypeSpecBuilder = TypeSpec.classBuilder(className)
                 methodElements?.forEach { methodElement ->
                     //生成方法
                     val methodName = methodElement.simpleName.toString()
                     val enclosingName = methodElement.enclosingElement.simpleName
+                    //方法注解的类和类注解如果一致，那么说明是同一个类
                     if (classElement.simpleName.equals(enclosingName)) {
                         val excutableElement: ExecutableElement = methodElement as ExecutableElement
                         //获取方法的参数列表
@@ -189,6 +181,9 @@ public class DataApiProcessor:AbstractProcessor(){
             .addStatement("reponse?.onResponse(t)")
             .addStatement("}")
             .addStatement("}catch(e:%T){", java.lang.Exception::class)
+            .addStatement("%T.%N.post{", threadPoolManagerClass, "mainHandler")
+            .addStatement("reponse?.onError(e)")
+            .addStatement("}")
             .addStatement("}")
             .addStatement("}")
         return funSpecBuild.build()
@@ -209,6 +204,7 @@ public class DataApiProcessor:AbstractProcessor(){
     }
 
     private fun getClassFromAnnotation(key: Element): String? {
+        //获取注解的class,element.getAnnotation(annotation) 会报异常.用其他方式获取
         val annotationMirrors = key.annotationMirrors
         for (annotationMirror in annotationMirrors) {
             if (DataApi::class.java.getName() == annotationMirror.annotationType.toString()) {

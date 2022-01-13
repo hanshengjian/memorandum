@@ -3,13 +3,13 @@ package com.hy.dicmanager.repo
 import com.hy.common.model.DicType
 import com.hy.common.repo.ReponseCall
 import com.hy.common.threadpool.ThreadPoolManager
-import java.lang.Exception
 
 /**
  * @auther:hanshengjian
  * @date:2021/12/8
  *
  */
+@Deprecated(message = "Deprecated,生成类代替")
 class DicTypeRepository {
     fun addDicType(newDicType: DicType, reponse: ReponseCall<Int>?) {
         ThreadPoolManager.threadPool.execute {
