@@ -7,6 +7,7 @@ import androidx.databinding.ViewDataBinding
 
 /**
  * @Author Lenovo
+ * 强制使用DataBinding
  */
 abstract class BaseActivity<T:ViewDataBinding> : AppCompatActivity(){
     lateinit var binding:T

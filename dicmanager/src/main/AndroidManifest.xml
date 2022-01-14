@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hy.dicmanager">
 
+    <application>
+        <activity android:name=".ui.DicManagerActivity"
+            android:screenOrientation="portrait"></activity>
+    </application>
+
 </manifest>
