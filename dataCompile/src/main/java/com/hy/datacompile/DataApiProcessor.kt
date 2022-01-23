@@ -16,11 +16,13 @@ import javax.tools.Diagnostic
 
 /**
  * @Author Lenovo
+ * 利用的是kapt,可以处理java和kotlin的注解
+ * 增量式注解
  */
 @AutoService(Processor::class)
 public class DataApiProcessor:AbstractProcessor(){
     //处理Element的工具类
-    private var mElementUtils: Elements? = null
+    private lateinit var mElementUtils: Elements
 
     //日志信息的输出
     private var mMessager: Messager? = null
@@ -28,17 +30,19 @@ public class DataApiProcessor:AbstractProcessor(){
     private lateinit var mFiler: Filer
 
     override fun init(processingEnv: ProcessingEnvironment?) {
+        System.out.println("DataApiProcessor init")
         super.init(processingEnv)
         if (processingEnv != null) {
             mFiler = processingEnv.filer
         }
-        mElementUtils = processingEnv?.elementUtils
+        mElementUtils = processingEnv?.elementUtils!!
         mMessager = processingEnv?.messager
     }
 
     override fun getSupportedSourceVersion(): SourceVersion {
         return SourceVersion.latestSupported()
     }
+
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
         val types = LinkedHashSet<String>()
@@ -51,6 +55,7 @@ public class DataApiProcessor:AbstractProcessor(){
         annotations: MutableSet<out TypeElement>?,
         roundEnv: RoundEnvironment?
     ): Boolean {
+        System.out.println("DataApiProcessor process")
         if (annotations.isNullOrEmpty() || roundEnv == null) {
             mMessager?.printMessage(Diagnostic.Kind.NOTE, "has no annotation end")
             return false
@@ -60,14 +65,12 @@ public class DataApiProcessor:AbstractProcessor(){
     }
 
     fun processDataApi(roundEnv: RoundEnvironment?){
-        val elementUtils = processingEnv.elementUtils
-        val typeUtils = processingEnv.getTypeUtils()
         try {
             val classElements = roundEnv?.getElementsAnnotatedWith(DataApi::class.java)
             val methodElements = roundEnv?.getElementsAnnotatedWith(DataMethod::class.java)
             classElements?.forEach { classElement ->
                 //生成类
-                val packageElement = elementUtils.getPackageOf(classElement)
+                val packageElement = mElementUtils.getPackageOf(classElement)
                 //包名
                 val packageName = packageElement.qualifiedName.toString()
                 val className = "${classElement.simpleName}Repository"
@@ -130,6 +133,7 @@ public class DataApiProcessor:AbstractProcessor(){
             datalocalClassStr?.substring(0, lastIndex),
             datalocalClassStr.substring(lastIndex, datalocalClassStr.length)
         )
+
         parameterSpecs.forEach {
             funSpecBuild.addParameter(it.parameter)
         }
@@ -140,10 +144,11 @@ public class DataApiProcessor:AbstractProcessor(){
             val startIndex = excutableElement.returnType.toString().indexOf("<")
             val lastIndex = excutableElement.returnType.toString().lastIndexOf(">")
             val modelTypeStr =
-                excutableElement.returnType.toString().subSequence(startIndex + 1, lastIndex)
-
+                excutableElement.returnType.toString().subSequence(startIndex+1, lastIndex)
             reponseCallParameter = ClassName("kotlin.collections", "List")
-                .parameterizedBy(Class.forName(modelTypeStr.toString()).kotlin.asClassName())
+                .parameterizedBy(ClassName(modelTypeStr.substring(0,modelTypeStr.lastIndexOf(".")),
+                    modelTypeStr.substring(modelTypeStr.lastIndexOf(".")+1)))
+
         } else {
             reponseCallParameter = excutableElement.returnType.asTypeName()
         }
@@ -154,7 +159,6 @@ public class DataApiProcessor:AbstractProcessor(){
         ).parameterizedBy(reponseCallParameter)
         val reponseParameter = ParameterSpec.builder("reponse", reponseClassName).build()
         funSpecBuild.addParameter(reponseParameter)
-
         funSpecBuild.addStatement("%T.threadPool.execute{", threadPoolManagerClass)
             .addStatement("try{")
         if (parameterSpecs.isEmpty()) {
