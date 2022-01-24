@@ -13,6 +13,8 @@ import javax.tools.Diagnostic
 
 /**
  * @Author Lenovo
+ * 利用的是kapt,可以处理java和kotlin的注解
+ * 增量式注解
  */
 @AutoService(Processor::class)
 public class DataApiProcessor:AbstractProcessor(){
@@ -26,11 +28,12 @@ public class DataApiProcessor:AbstractProcessor(){
     private lateinit var mFiler: Filer
 
     override fun init(processingEnv: ProcessingEnvironment?) {
+        System.out.println("DataApiProcessor init")
         super.init(processingEnv)
         if (processingEnv != null) {
             mFiler = processingEnv.filer
         }
-        mElementUtils = processingEnv?.elementUtils
+        mElementUtils = processingEnv?.elementUtils!!
         mMessager = processingEnv?.messager
         mTypeUtils = processingEnv?.getTypeUtils()
     }
@@ -38,6 +41,7 @@ public class DataApiProcessor:AbstractProcessor(){
     override fun getSupportedSourceVersion(): SourceVersion {
         return SourceVersion.latestSupported()
     }
+
 
     override fun getSupportedAnnotationTypes(): MutableSet<String> {
         val types = LinkedHashSet<String>()
@@ -49,6 +53,7 @@ public class DataApiProcessor:AbstractProcessor(){
         annotations: MutableSet<out TypeElement>?,
         roundEnv: RoundEnvironment?
     ): Boolean {
+        System.out.println("DataApiProcessor process")
         if (annotations.isNullOrEmpty() || roundEnv == null) {
             mMessager?.printMessage(Diagnostic.Kind.NOTE, "has no annotation end")
             return false
