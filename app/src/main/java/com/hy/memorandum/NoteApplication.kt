@@ -5,6 +5,7 @@ import cody.bus.ElegantBus
 import com.alibaba.android.arouter.launcher.ARouter
 import com.hy.common.base.BaseApp
 import com.hy.common.flutter.MemFlutterConstants
+import com.hy.common.flutter.MethodChannelPlugin
 import com.hy.utils.LogUtil
 import com.tencent.mmkv.MMKV
 import io.flutter.embedding.engine.FlutterEngine
@@ -36,9 +37,10 @@ class NoteApplication:BaseApp() {
         try {
             val flutterEngine = FlutterEngine(this)
             flutterEngine.getNavigationChannel()
-                .setInitialRoute("main")
+                .setInitialRoute("setting_page")
             flutterEngine.getDartExecutor()
                 .executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
+            flutterEngine.plugins.add(MethodChannelPlugin())
             FlutterEngineCache.getInstance()
                 .put(MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL, flutterEngine)
         } catch (e: Throwable) {

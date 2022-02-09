@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         top_menu_iv.setOnClickListener {
-            MemFlutterActivity.toSettingPage(this@MainActivity,"main", MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL)
+            MemFlutterActivity.toSettingPage(this@MainActivity,"setting_page", MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL)
         }
     }
 

@@ -2,7 +2,13 @@ package com.hy.common.flutter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import com.hy.common.manager.ActivityManager
+import com.hy.utils.LogUtil
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.plugin.common.BasicMessageChannel
+import io.flutter.plugin.common.StandardMessageCodec
+import io.flutter.plugin.common.StringCodec
 
 /**
  * @auther:hanshengjian
@@ -10,6 +16,23 @@ import io.flutter.embedding.android.FlutterActivity
  *
  */
 public class MemFlutterActivity:FlutterActivity(){
+
+    private var basicMessageChannel:BasicMessageChannel<Any>?=null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        basicMessageChannel = flutterEngine?.dartExecutor?.binaryMessenger?.let {
+            BasicMessageChannel(
+                it,
+            "flutter_plugin_basic_message_channel",StandardMessageCodec.INSTANCE)
+        }
+        basicMessageChannel?.setMessageHandler { message, reply ->
+            LogUtil.i("MemFlutterActivity",message.toString())
+            reply.reply("Android 已收到")
+        }
+        basicMessageChannel?.send("nihao")
+        ActivityManager.push(activity)
+    }
 
     companion object{
         @JvmStatic
@@ -23,6 +46,15 @@ public class MemFlutterActivity:FlutterActivity(){
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ActivityManager.pop()
     }
 
 }

@@ -35,6 +35,7 @@ class HyRepositoryTypeSpec(
     val MAINHANDLER: String = "mainHandler"
 
     fun parse() {
+        System.out.println("DataApiProcessor parse")
         val encloseElements = classElement.enclosedElements
         encloseElements.forEach {
             if (it.kind == ElementKind.METHOD) {
@@ -81,10 +82,7 @@ class HyRepositoryTypeSpec(
         val datalocalClassStr = getClassFromAnnotation(classElement)!!
         val lastIndex = datalocalClassStr.lastIndexOf(".")
 
-        val datalocalClassName = ClassName(
-            datalocalClassStr?.substring(0, lastIndex),
-            datalocalClassStr.substring(lastIndex, datalocalClassStr.length)
-        )
+        val datalocalClassName = Utils.createClassName(datalocalClassStr)
         parameterSpecs.forEach {
             funSpecBuild.addParameter(it.parameter)
         }
@@ -98,7 +96,7 @@ class HyRepositoryTypeSpec(
                 excutableElement.returnType.toString().subSequence(startIndex + 1, lastIndex)
 
             reponseCallParameter = LIST
-                .parameterizedBy(Class.forName(modelTypeStr.toString()).kotlin.asClassName())
+                .parameterizedBy(Utils.createClassName(modelTypeStr.toString()))
         } else {
             reponseCallParameter = excutableElement.returnType.asTypeName()
         }
