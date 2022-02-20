@@ -17,6 +17,7 @@ import com.hy.utils.UiUtil;
 public class MemRecyclerViewItem extends HorizontalScrollView {
 
     private static final String TAG = "MemRecyclerViewItem";
+    private ScrollCallbackListener scrollCallbackListener = null;
 
     public MemRecyclerViewItem(Context context) {
         this(context, null);
@@ -67,6 +68,10 @@ public class MemRecyclerViewItem extends HorizontalScrollView {
         this.range = range;
     }
 
+    public void setScrollCallbackListener(ScrollCallbackListener scrollCallbackListener) {
+        this.scrollCallbackListener = scrollCallbackListener;
+    }
+
     public void apply() {
         isLeft = true;
         changeLayout();
@@ -101,15 +106,23 @@ public class MemRecyclerViewItem extends HorizontalScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
+        //回复上一个状态
+        if (scrollCallbackListener != null) {
+            scrollCallbackListener.onResetLast();
+        }
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
             return true;
         }
         if (ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_UP) {
             Log.i(TAG, "up");
+
             if (isLeft) {
                 if (getScrollX() > range) {
                     isLeft = false;
                     scrollTo(rightLayoutWidth, 0);
+                    if (scrollCallbackListener != null) {
+                        scrollCallbackListener.onScrolled(this);
+                    }
                 } else {
                     scrollTo(0, 0);
                 }
@@ -118,11 +131,28 @@ public class MemRecyclerViewItem extends HorizontalScrollView {
                     isLeft = true;
                     scrollTo(0, 0);
                 } else {
+                    if (scrollCallbackListener != null) {
+                        scrollCallbackListener.onScrolled(this);
+                    }
                     scrollTo(rightLayoutWidth, 0);
                 }
             }
+
         }
         Log.i(TAG, "end");
         return super.onTouchEvent(ev);
+    }
+
+    public interface ScrollCallbackListener {
+        public void onScrolled(MemRecyclerViewItem item);
+
+        public void onResetLast();
+    }
+
+    /**
+     * 回复状态
+     */
+    public void reset() {
+        scrollTo(0, 0);
     }
 }

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hy.common.R
 import com.hy.common.eventbus.CreateDicTypeEvent
 import com.hy.common.model.DicType
+import com.hy.common.navigator.BedoneNavigator
 import com.hy.common.navigator.DicManagerNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
@@ -25,6 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
  * @auther:hanshengjian
  * @date:2021/12/13
  * expression (code:Int) -1 全部，0 未分类 其他已分类
+ * page: 0 笔记  1 代办
  */
 class DicPopupWin(
     val page: Int,
@@ -39,26 +41,40 @@ class DicPopupWin(
     var mAllDataSizeTv: TextView? = null
     var mNoTypeTv: TextView? = null
 
+    //label tv
+    var allDataLabelTv: TextView? = null
+    var labelMap: MutableMap<Int, String> = mutableMapOf(
+        Pair(0, "全部笔记")
+        , Pair(1, "全部待办")
+    )
+
+
     init {
         EventBus.getDefault().register(this)
         val view = LayoutInflater.from(context).inflate(R.layout.dic_popup, null, false)
         contentView = view
         this.width = ViewGroup.LayoutParams.MATCH_PARENT
-        this.height = UiUtil.dip2px(context,500f)
+        this.height = UiUtil.dip2px(context, 500f)
         setBackgroundDrawable(BitmapDrawable())
         setOutsideTouchable(true)
         setFocusable(true)
 
-        val drawable = context?.resources?.let { ColorDrawable(it.getColor(R.color.transparent_50)) }
+        val drawable =
+            context?.resources?.let { ColorDrawable(it.getColor(R.color.transparent_50)) }
         setBackgroundDrawable(drawable)
         initView(view)
 
     }
 
-    fun initView(root:View){
+    fun initView(root: View) {
         mConverll = root.findViewById(R.id.cover_ll)
         mAllDataSizeTv = root.findViewById(R.id.all_data_tv)
         mNoTypeTv = root.findViewById(R.id.no_type_tv)
+        allDataLabelTv = root.findViewById(R.id.all_data_lable_tv)
+        if (page == 1) {
+            mConverll?.visibility = View.GONE
+            allDataLabelTv?.text = labelMap[page]
+        }
 
         root.findViewById<View>(R.id.pic_manager_tv).setOnClickListener(this)
         root.findViewById<View>(R.id.all_data_rl).setOnClickListener(this)
@@ -66,7 +82,7 @@ class DicPopupWin(
 
         mDicListRecyc = root.findViewById(R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
-        mDicPopAdapter =  DicPopAdapter()
+        mDicPopAdapter = DicPopAdapter()
         mDicListRecyc?.adapter = mDicPopAdapter
         mDicListRecyc?.addOnItemTouchListener(
             ItemTouchHelper(context!!,
@@ -83,33 +99,47 @@ class DicPopupWin(
         refreshDicList()
     }
 
-    fun refreshDicList(){
-        NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()?.getDicList(page){
-                dictypes,messsge->
-            dictypes?.let {
-                mDicPopAdapter?.dicTypes = dictypes
-                mDicPopAdapter?.notifyDataSetChanged()
+    fun refreshDicList() {
+        NavigatorManager.getNavigator(DicManagerNavigator::class.java)?.getDicManager()
+            ?.getDicList(page) { dictypes, messsge ->
+                dictypes?.let {
+                    mDicPopAdapter?.dicTypes = dictypes
+                    mDicPopAdapter?.notifyDataSetChanged()
+                }
             }
+        if (page == 0) {
+            NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
+                ?.getNoteSize { result, message ->
+                    if (result != null && result > 0) {
+                        mAllDataSizeTv?.text = result.toString()
+                    }
+                }
+
+            NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
+                ?.getNotesSizeNoType { result, message ->
+                    if (result != null && result > 0) {
+                        mNoTypeTv?.text = result.toString()
+                    }
+                }
+        } else {
+            NavigatorManager.getNavigator(BedoneNavigator::class.java)?.getBedoneService()
+                ?.getBedoneSize { result, message ->
+                    if (result != null && result > 0) {
+                        mAllDataSizeTv?.text = result.toString()
+                    }
+                }
+            NavigatorManager.getNavigator(BedoneNavigator::class.java)?.getBedoneService()
+                ?.getBedoneSizeNoType { result, message ->
+                    if (result != null && result > 0) {
+                        mNoTypeTv?.text = result.toString()
+                    }
+                }
         }
 
-        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
-            ?.getNoteSize { result, message ->
-                if (result != null && result > 0) {
-                    mAllDataSizeTv?.text = result.toString()
-                }
-            }
-
-        NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
-            ?.getNotesSizeNoType { result, message ->
-                if (result != null && result > 0) {
-                    mNoTypeTv?.text = result.toString()
-                }
-            }
     }
 
 
-
-    fun show(view: View){
+    fun show(view: View) {
         showAsDropDown(view)
     }
 
@@ -121,7 +151,7 @@ class DicPopupWin(
             }
             R.id.all_data_rl -> {
                 dismiss()
-                expression.invoke(DicType(id = -1, content = "全部笔记"))
+                expression.invoke(DicType(id = -1, content = labelMap[page]!!, page = this.page))
             }
             R.id.no_type_rl -> {
                 dismiss()
@@ -131,7 +161,7 @@ class DicPopupWin(
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEventBus(event:CreateDicTypeEvent){
+    fun onEventBus(event: CreateDicTypeEvent) {
         refreshDicList()
     }
 

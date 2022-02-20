@@ -2,6 +2,29 @@ apply plugin: 'com.android.library'
 apply from: "../buildModule.gradle"
 apply from :"push.gradle"
 
+android {
+    defaultConfig{
+        versionCode 2
+        versionName "2.0"
+    }
+    kapt {
+        useBuildCache = true
+    }
+}
 dependencies {
-    implementation project(":common")
+    def projects = rootProject.getChildProjects()
+    def projectsKey = ['utils','common']
+    projectsKey.each { key->
+        if (projects.containsKey(key)) {
+            implementation project(":$key")
+        } else {
+            def propFile = file("../gradle.properties")
+            def props = new Properties()
+            props.load(new FileInputStream(propFile))
+            def moduleVersion = props.getProperty("$key")
+            implementation moduleVersion
+        }
+    }
+    implementation project(":dataCompile")
+    kapt project(":dataCompile")
 }

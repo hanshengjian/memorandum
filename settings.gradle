@@ -8,7 +8,7 @@ evaluate(new File(
 rootProject.name = "memorandum"
 
 def workDir = new File('E:/Android/AndroidStudioProjects/memorandum')
-def projects = ['advertisement','common','dicmanager','hybrid','note','setting','dataCompile','utils']
+def projects = ['advertisement','common','dicmanager','hybrid','note','setting','dataCompile','utils','bedone']
 
 if(workDir!=null){
     workDir.listFiles().each {projectDir ->

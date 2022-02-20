@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.hy.common.model.Note
+import com.hy.common.widget.MemRecyclerViewItem
 import com.hy.note.R
 import com.hy.note.databinding.ItemNoteBinding
 
@@ -17,6 +18,7 @@ class NoteListAdapter() :
 
     var notes: MutableList<Note>? = null
     var menuItemListener: onMenuItemListener? = null
+    var lastMemRecyclerViewItem: MemRecyclerViewItem? = null
 
     public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var viewDataBinding: ItemNoteBinding;
@@ -50,6 +52,17 @@ class NoteListAdapter() :
         holder.viewDataBinding.topBtn.setOnClickListener(this)
         holder.viewDataBinding.moveBtn.setOnClickListener(this)
         holder.viewDataBinding.leftLayout.setOnClickListener(this)
+        holder.viewDataBinding.noteRecycerItem.setScrollCallbackListener(object :
+            MemRecyclerViewItem.ScrollCallbackListener {
+            override fun onScrolled(item: MemRecyclerViewItem?) {
+                lastMemRecyclerViewItem = item
+            }
+
+            override fun onResetLast() {
+                lastMemRecyclerViewItem?.apply()
+            }
+
+        })
 
         holder.viewDataBinding.deleteBtn.tag = position
         holder.viewDataBinding.topBtn.tag = position
