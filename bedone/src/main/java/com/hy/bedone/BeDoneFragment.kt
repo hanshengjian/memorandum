@@ -1,6 +1,7 @@
 package com.hy.bedone
 
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hy.bedone.databinding.FragmentBedoneListBinding
 import com.hy.common.base.BaseFragment
@@ -40,6 +41,7 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
             dicPopupWindow = DicPopupWin(1, activity) { type ->
                 //重新刷新数据
                 type_name_tv.text = type?.content
+                bedoneVieModel.type = type?.id!!
                 refreshData(type?.id)
             }
             dicPopupWindow!!.setOnDismissListener {
@@ -48,25 +50,17 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
             dicPopupWindow!!.show(it)
         }
 
-//        bedoneVieModel.deleteNote.observe(this, Observer {
-//            if (it != null) {
-//                val olds = noteListAdapter.notes?.toMutableList()
-//                noteListAdapter.notes?.remove(it)
-//                val recycItemCallback =
-//                    RecyclerDiffItemCallback(
-//                        olds,
-//                        noteListAdapter.notes
-//                    )
-//                val diffResult = DiffUtil.calculateDiff(recycItemCallback, true)
-//                diffResult.dispatchUpdatesTo(noteListAdapter)
-//                noteListAdapter.notes?.isEmpty()?.let { it1 -> emptyView(it1) }
-//            } else {
-//                Toast.makeText(context, "删除失败", Toast.LENGTH_SHORT).show()
-//            }
-//        })
+
     }
 
     override fun initData() {
+        bedoneVieModel.saveSuccess.observe(this, Observer {
+            if (it) {
+                //刷新列表
+
+                bedoneAdapter.notifyItemInserted(0)
+            }
+        })
     }
 
     fun refreshData(type: Int?) {
