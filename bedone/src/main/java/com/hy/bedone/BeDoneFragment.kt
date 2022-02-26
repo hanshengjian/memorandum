@@ -57,7 +57,6 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
         bedoneVieModel.saveSuccess.observe(this, Observer {
             if (it) {
                 //刷新列表
-
                 bedoneAdapter.notifyItemInserted(0)
             }
         })

@@ -31,7 +31,8 @@ class BedoneAdapter : RecyclerView.Adapter<BedoneAdapter.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        val bedone = bedones!![position]
+        holder.viewDataBinding.bedoneTv.text = bedone.content
     }
 
 

@@ -2,7 +2,9 @@ package com.hy.bedone.widget
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
+import android.view.ViewGroup
 import android.view.Window
 import android.widget.EditText
 import com.hy.bedone.R
@@ -25,7 +27,15 @@ class BedoneAddDialog(context: Context, val type: Int, val addMethod: (bedone: B
         setContentView(R.layout.bedone_add_dialog)
 
         val dialogWindow: Window = getWindow()
+        dialogWindow.setBackgroundDrawable(
+            ColorDrawable(
+                context.getResources().getColor(R.color.transparent)
+            )
+        );
         dialogWindow.setGravity(Gravity.BOTTOM)
+        val layoutParams = dialogWindow.attributes
+        layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+        dialogWindow.attributes = layoutParams
 
         bedoneEditText = findViewById(R.id.bedone_edit)
 
