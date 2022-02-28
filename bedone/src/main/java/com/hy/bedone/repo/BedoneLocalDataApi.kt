@@ -20,4 +20,20 @@ class BedoneLocalDataApi : BedoneDataApi {
             throw e
         }
     }
+
+    override fun getBedones(): List<Bedone> {
+        try {
+            return AppDatabaseInstance().bedoneDao().getBedones()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+
+    override fun getBedonesByType(type: Int): List<Bedone> {
+        try {
+            return AppDatabaseInstance().bedoneDao().getBedones()
+        } catch (e: Exception) {
+            throw e
+        }
+    }
 }

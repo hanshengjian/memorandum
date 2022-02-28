@@ -11,7 +11,7 @@ interface BedoneDao {
     @Update
     fun updateBedone(bedone: Bedone)
 
-    @Query("select * from bedone")
+    @Query("select * from bedone order by  create_time desc")
     fun getBedones(): List<Bedone>
 
     @Query("select * from bedone where id=:id")

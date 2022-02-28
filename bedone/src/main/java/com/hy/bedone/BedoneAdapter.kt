@@ -35,5 +35,8 @@ class BedoneAdapter : RecyclerView.Adapter<BedoneAdapter.ViewHolder>() {
         holder.viewDataBinding.bedoneTv.text = bedone.content
     }
 
+    fun clearData() {
+        bedones?.clear()
+    }
 
 }

@@ -1,10 +1,14 @@
 package com.hy.bedone
 
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
 import com.hy.bedone.databinding.FragmentBedoneListBinding
+import com.hy.bedone.widget.RecyclerDiffItemCallback
 import com.hy.common.base.BaseFragment
+import com.hy.common.model.Bedone
 import com.hy.common.widget.DicPopupWin
 import kotlinx.android.synthetic.main.fragment_bedone_list.*
 
@@ -55,11 +59,29 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
 
     override fun initData() {
         bedoneVieModel.saveSuccess.observe(this, Observer {
-            if (it) {
+            if (it != null) {
                 //刷新列表
+                bedoneAdapter.bedones?.add(0, it)
                 bedoneAdapter.notifyItemInserted(0)
+                Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show()
             }
         })
+        bedoneVieModel.bedonesLiveData.observe(this, Observer {
+            bedoneAdapter.apply {
+                if (it.isNullOrEmpty()) {
+                    clearData()
+                    notifyDataSetChanged()
+                } else {
+                    val olds = if (bedones == null) mutableListOf() else bedones
+                    diffRefresh(olds!!, it as MutableList<Bedone>)
+                    bedones = it
+                }
+                emptyView(it.isEmpty())
+            }
+        })
+        refreshData(0)
     }
 
     fun refreshData(type: Int?) {
@@ -67,4 +89,23 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
             bedoneVieModel.getBedones(type)
         }
     }
+
+    fun diffRefresh(olds: MutableList<Bedone>, news: MutableList<Bedone>) {
+        val recycItemCallback =
+            RecyclerDiffItemCallback(
+                olds,
+                news
+            )
+        val diffResult = DiffUtil.calculateDiff(recycItemCallback, true)
+        diffResult.dispatchUpdatesTo(bedoneAdapter)
+    }
+
+    fun emptyView(empty: Boolean) {
+        if (empty) {
+            ll_empty.visibility = View.VISIBLE
+        } else {
+            ll_empty.visibility = View.GONE
+        }
+    }
+
 }

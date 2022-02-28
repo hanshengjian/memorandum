@@ -3,6 +3,7 @@ package com.hy.bedone.widget
 import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.os.SystemClock
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.Window
@@ -42,7 +43,8 @@ class BedoneAddDialog(context: Context, val type: Int, val addMethod: (bedone: B
         btn_save.setOnClickListener {
             dismiss()
             val bedone = Bedone()
-            bedone.content = bedoneEditText?.text.toString();
+            bedone.content = bedoneEditText?.text.toString()
+            bedone.createTime = SystemClock.elapsedRealtime()
             bedone.type = type
             addMethod?.invoke(bedone)
         }
