@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
 import com.hy.bedone.databinding.FragmentBedoneListBinding
-import com.hy.bedone.widget.RecyclerDiffItemCallback
+import com.hy.bedone.widget.BedoneDiffItemCallback
 import com.hy.common.base.BaseFragment
 import com.hy.common.model.Bedone
 import com.hy.common.widget.DicPopupWin
@@ -92,7 +92,7 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
 
     fun diffRefresh(olds: MutableList<Bedone>, news: MutableList<Bedone>) {
         val recycItemCallback =
-            RecyclerDiffItemCallback(
+            BedoneDiffItemCallback(
                 olds,
                 news
             )

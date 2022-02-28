@@ -1,67 +1,24 @@
-package com.hy.note.widget;
+package com.hy.note.widget
 
-import androidx.recyclerview.widget.DiffUtil;
-
-import com.hy.common.model.Note;
-
-import java.util.List;
+import com.hy.common.model.Note
+import com.hy.common.widget.RecyclerDiffItemCallback
 
 /**
  * @auther:hanshengjian
  * @date:2021/12/30
  */
-public class RecyclerDiffItemCallback extends DiffUtil.Callback {
+class NoteDiffItemCallback(olds: List<Note>, news: List<Note>) :
+    RecyclerDiffItemCallback<Note>(olds, news) {
 
-    private List<Note> olds;
-    private List<Note> news;
-
-    public RecyclerDiffItemCallback(List<Note> olds, List<Note> news) {
-        this.olds = olds;
-        this.news = news;
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        return olds[oldItemPosition].id == news[newItemPosition].id
     }
 
-    public List<Note> getOlds() {
-        return olds;
-    }
-
-    public void setOlds(List<Note> olds) {
-        this.olds = olds;
-    }
-
-    public List<Note> getNews() {
-        return news;
-    }
-
-    public void setNews(List<Note> news) {
-        this.news = news;
-    }
-
-    @Override
-    public int getOldListSize() {
-        return olds.size();
-    }
-
-    @Override
-    public int getNewListSize() {
-        return news.size();
-    }
-
-    @Override
-    public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        return olds.get(oldItemPosition).getId() == news.get(newItemPosition).getId();
-    }
-
-    @Override
-    public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        Note oldNote = olds.get(oldItemPosition);
-        Note newNote = news.get(newItemPosition);
-
-        if (oldNote.getId() == newNote.getId() &&
-                oldNote.getContent().equals(newNote.getContent()) &&
-                oldNote.getType() == newNote.getType() &&
-                oldNote.getTitle().equals(newNote.getTitle())) {
-            return true;
-        }
-        return false;
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+        val (id, content, type, title) = olds[oldItemPosition]
+        val (id1, content1, type1, title1) = news[newItemPosition]
+        return if (id == id1 && content == content1 && type == type1 && title == title1) {
+            true
+        } else false
     }
 }
