@@ -30,12 +30,6 @@
         android:layout_above="@+id/tablayout"
         android:layout_below="@+id/top_menu_rl" />
 
-
-
-
-
-
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tablayout"
         android:layout_width="match_parent"
