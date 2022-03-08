@@ -12,23 +12,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AppbarTestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity
+            android:name=".otherdemo.AnimationTestDemo"
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        </activity>
+        <activity android:name=".AppbarTestActivity">
+
         </activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
+        <activity android:name=".otherdemo.PagActivity"></activity>
+        <activity android:name=".otherdemo.LottieActivity" />
+        <activity android:name=".otherdemo.GifActivity" />
     </application>
 
 </manifest>
