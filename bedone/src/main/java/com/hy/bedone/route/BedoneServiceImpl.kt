@@ -1,8 +1,10 @@
 package com.hy.bedone.route
 
 import android.content.Context
+import cody.bus.ElegantBus
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hy.bedone.repo.BedoneDataApiRepository
+import com.hy.bedone.widget.BedoneAddDialog
 import com.hy.common.navigator.BedoneNavigator
 import com.hy.common.navigator.BedoneService
 import com.hy.common.repo.ReponseCall
@@ -25,6 +27,24 @@ class BedoneServiceImpl : BedoneService {
 
     override fun getBedoneSizeNoType(expression: (Int?, String?) -> Unit) {
 
+    }
+
+    override fun addBedone(context: Context, type: Int) {
+        val bedoneAddDialog = BedoneAddDialog(context, type) {
+            it?.apply {
+                BedoneDataApiRepository().addBedone(this, object : ReponseCall<Int> {
+                    override fun onResponse(t: Int) {
+                        ElegantBus.getDefault("bedoneSaveState").post(type);
+                    }
+
+                    override fun onError(e: Exception) {
+                        ElegantBus.getDefault("bedoneSaveState").post(type);
+                    }
+
+                })
+            }
+        }
+        bedoneAddDialog.show()
     }
 
     override fun init(context: Context?) {

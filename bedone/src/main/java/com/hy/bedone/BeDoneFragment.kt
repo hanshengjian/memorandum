@@ -1,16 +1,21 @@
 package com.hy.bedone
 
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DiffUtil
+import cody.bus.ElegantBus
+import cody.bus.ObserverWrapper
 import com.hy.bedone.databinding.FragmentBedoneListBinding
 import com.hy.bedone.widget.BedoneDiffItemCallback
 import com.hy.common.base.BaseFragment
+import com.hy.common.eventbus.RefreshBedone
 import com.hy.common.model.Bedone
 import com.hy.common.widget.DicPopupWin
 import kotlinx.android.synthetic.main.fragment_bedone_list.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -38,36 +43,20 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
             viewModel = bedoneVieModel
             adapter = bedoneAdapter
         }
-
-        dic_bedone_ll.setOnClickListener {
-            // if(dicPopupWindow==null){
-            bedone_arrow_iv.setImageResource(R.mipmap.arrow_down_bold)
-            dicPopupWindow = DicPopupWin(1, activity) { type ->
-                //重新刷新数据
-                type_name_tv.text = type?.content
-                bedoneVieModel.type = type?.id!!
-                refreshData(type?.id)
-            }
-            dicPopupWindow!!.setOnDismissListener {
-                bedone_arrow_iv.setImageResource(R.mipmap.arrow_up_bold)
-            }
-            dicPopupWindow!!.show(it)
-        }
-
-
     }
 
     override fun initData() {
-        bedoneVieModel.saveSuccess.observe(this, Observer {
-            if (it != null) {
-                //刷新列表
-                bedoneAdapter.bedones?.add(0, it)
-                bedoneAdapter.notifyItemInserted(0)
-                Toast.makeText(context, "保存成功", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(context, "保存失败", Toast.LENGTH_SHORT).show()
-            }
-        })
+        EventBus.getDefault().register(this)
+
+        ElegantBus.getDefault("bedoneSaveState")
+            .observe(this, object : ObserverWrapper<Any>() {
+                override fun onChanged(value: Any?) {
+                    if (value is Int) {
+                        refreshData(value)
+                    }
+
+                }
+            })
         bedoneVieModel.bedonesLiveData.observe(this, Observer {
             bedoneAdapter.apply {
                 if (it.isNullOrEmpty()) {
@@ -107,5 +96,11 @@ class BeDoneFragment:BaseFragment<FragmentBedoneListBinding>() {
             ll_empty.visibility = View.GONE
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(refreshBedone: RefreshBedone) {
+        refreshData(refreshBedone.type.id)
+    }
+
 
 }

@@ -14,26 +14,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".otherdemo.AnimationTestDemo"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".AppbarTestActivity">
-
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".AppbarTestActivity"></activity>
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".otherdemo.PagActivity"></activity>
+        <activity android:name=".otherdemo.PagActivity" />
         <activity android:name=".otherdemo.LottieActivity" />
         <activity android:name=".otherdemo.GifActivity" />
     </application>

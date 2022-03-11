@@ -4,6 +4,7 @@
         <!-- Customize your theme here. -->
     </style>
 
+
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item><!--toolbar标题字体大小-->
         <item name="android:textColor">#ffffff</item><!--toolbar标题字体颜色-->

@@ -7,16 +7,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import cody.bus.ElegantBus
-import cody.bus.ElegantLog
-import cody.bus.ObserverWrapper
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hy.common.base.BaseActivity
-import com.hy.common.model.DicType
 import com.hy.common.navigator.NoteNavigator
 import com.hy.note.R
 import com.hy.note.databinding.ActivityNoteEditBinding
 import com.hy.note.widget.DicPopupWin
-import com.hy.utils.TimeUtil
 import kotlinx.android.synthetic.main.activity_note_edit.*
 
 @Route(path = NoteNavigator.EDIT_PAGE_PATH)
@@ -55,17 +51,19 @@ class NoteEditActivity : BaseActivity<ActivityNoteEditBinding>() {
         noteId = intent.getIntExtra(NoteNavigator.NOTE_ID,0)
         noteEditViewModel.noteId = noteId
         noteEditViewModel.saveSuccess.observe(this, Observer {
-            if(it){
-                Toast.makeText(getApplication(),"保存成功",Toast.LENGTH_SHORT).show()
-                ElegantBus.getDefault("saveState").post(true);
-            }else{
-                Toast.makeText(getApplication(),"保存失败",Toast.LENGTH_SHORT).show()
-                ElegantBus.getDefault("saveState").post(false);
+            if (it) {
+                Toast.makeText(getApplication(), "保存成功", Toast.LENGTH_SHORT).show()
+                ElegantBus.getDefault("noteSaveState").post(true);
+            } else {
+                Toast.makeText(getApplication(), "保存失败", Toast.LENGTH_SHORT).show()
+                ElegantBus.getDefault("noteSaveState").post(false);
             }
             //收起软键盘
             val imm = this@NoteEditActivity
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager;
-            imm.hideSoftInputFromWindow(this@NoteEditActivity.getWindow().getDecorView().getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(
+                this@NoteEditActivity.getWindow().getDecorView().getWindowToken(), 0
+            );
         })
         if(noteId!=0){
             noteEditViewModel.getNote(0,noteId!!)

@@ -8,12 +8,16 @@ import androidx.recyclerview.widget.DiffUtil
 import cody.bus.ElegantBus
 import cody.bus.ObserverWrapper
 import com.hy.common.base.BaseFragment
+import com.hy.common.eventbus.RefreshNote
 import com.hy.common.model.Note
 import com.hy.common.widget.DicPopupWin
 import com.hy.note.R
 import com.hy.note.databinding.FragmentNoteListBinding
 import com.hy.note.widget.NoteDiffItemCallback
 import kotlinx.android.synthetic.main.fragment_note_list.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 /**
@@ -42,21 +46,6 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
             viewModel = noteListiewModel
             adapter = noteListAdapter
         }
-
-        dic_note_ll.setOnClickListener {
-           // if(dicPopupWindow==null){
-            dic_arrow_iv.setImageResource(R.mipmap.arrow_down_bold)
-            dicPopupWindow = DicPopupWin(0, activity) { type ->
-                //重新刷新数据
-                type_name_tv.text = type?.content
-                refreshData(type?.id)
-            }
-            dicPopupWindow!!.setOnDismissListener {
-                dic_arrow_iv.setImageResource(R.mipmap.arrow_up_bold)
-            }
-            dicPopupWindow!!.show(it)
-        }
-
         noteListAdapter.menuItemListener = object : NoteListAdapter.onMenuItemListener {
             override fun deleteItem(position: Int, note: Note?) {
                 noteListiewModel.deleteNote(note)
@@ -96,8 +85,9 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
     }
 
     override fun initData() {
+        EventBus.getDefault().register(this)
         requestData()
-        ElegantBus.getDefault("saveState")
+        ElegantBus.getDefault("noteSaveState")
             .observe(this, object : ObserverWrapper<Any>() {
                 override fun onChanged(value: Any?) {
                     requestData()
@@ -116,6 +106,7 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
                 emptyView(it.isEmpty())
             }
         })
+
     }
 
     fun emptyView(empty: Boolean) {
@@ -144,6 +135,11 @@ class NoteListFragment : BaseFragment<FragmentNoteListBinding>() {
         if (type != null) {
             noteListiewModel.getNotes(type)
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onEvent(refreshNote: RefreshNote) {
+        refreshData(refreshNote.type.id)
     }
 
 }

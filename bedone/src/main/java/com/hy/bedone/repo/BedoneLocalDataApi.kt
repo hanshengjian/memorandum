@@ -2,6 +2,7 @@ package com.hy.bedone.repo
 
 import com.hy.common.model.Bedone
 import com.hy.common.room.AppDatabaseInstance
+import com.hy.utils.LogUtil
 
 class BedoneLocalDataApi : BedoneDataApi {
     override fun addBedone(bedone: Bedone): Int {
@@ -9,6 +10,7 @@ class BedoneLocalDataApi : BedoneDataApi {
             AppDatabaseInstance().bedoneDao().addBedone(bedone)
             return 1
         } catch (e: Exception) {
+            LogUtil.i("Bedone", "addBedone fail msg:" + e.message)
             throw e
         }
     }
@@ -17,6 +19,7 @@ class BedoneLocalDataApi : BedoneDataApi {
         try {
             return AppDatabaseInstance().bedoneDao().getBedonesSize()
         } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedonSize fail msg:" + e.message)
             throw e
         }
     }
@@ -25,6 +28,7 @@ class BedoneLocalDataApi : BedoneDataApi {
         try {
             return AppDatabaseInstance().bedoneDao().getBedones()
         } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedones fail msg:" + e.message)
             throw e
         }
     }
@@ -33,6 +37,7 @@ class BedoneLocalDataApi : BedoneDataApi {
         try {
             return AppDatabaseInstance().bedoneDao().getBedones()
         } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedonesByType fail msg:" + e.message)
             throw e
         }
     }

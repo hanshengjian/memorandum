@@ -32,7 +32,8 @@
                 android:id="@+id/dic_bedone_ll"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/type_name_tv"
@@ -73,15 +74,5 @@
                     android:text="数据是空的"></TextView>
             </LinearLayout>
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="100dp"
-            android:layout_marginRight="50dp"
-            android:text="添加代办"
-            android:onClick="@{viewModel::addClick}"></Button>
     </FrameLayout>
 </layout>

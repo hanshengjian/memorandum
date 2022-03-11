@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -28,6 +29,17 @@ class AppbarTestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_appbar_test)
 
+        toolbar.inflateMenu(R.menu.menu_note);
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.view_grid -> Toast.makeText(
+                    this@AppbarTestActivity,
+                    "宫格视图",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            true
+        }
         init()
         msg_log_recyc = findViewById(R.id.recyclerview)
         msgLogAdapter = MsgLogAdapter()
