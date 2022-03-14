@@ -81,13 +81,38 @@ class NoteLocalDataApi : NoteDataApi {
         }
     }
 
+    override fun getDeletedNotes(): List<Note> {
+        try {
+            return AppDatabaseInstance().noteDao().getDeletedNotes()
+        } catch (e: Exception) {
+            return mutableListOf()
+        }
+    }
+
+    override fun getDeletedNoteSize(): Int {
+        try {
+            return AppDatabaseInstance().noteDao().getDeletedNotesSize()
+        } catch (e: Exception) {
+            return 0
+        }
+    }
+
     override fun deleteNote(note: Note): Int {
         try {
+            note.deleteFlag = 1
             AppDatabaseInstance().noteDao().deleteNote(note)
             return 0
         } catch (e: Exception) {
             LogUtil.i(TAG, e.message + "")
             return -1
+        }
+    }
+
+    override fun getNoteSizeByType(type: Int): Int {
+        try {
+            return AppDatabaseInstance().noteDao().getNoteSizeByType(type)
+        } catch (e: Exception) {
+            return 0
         }
     }
 }

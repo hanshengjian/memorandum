@@ -15,17 +15,23 @@ class BeDoneViewModel : ViewModel() {
     var type: Int = 0
 
     fun getBedones(type: Int) {
-        if (type == 0) {
-            BedoneDataApiRepository().getBedones(object : ReponseCall<List<Bedone>> {
-                override fun onResponse(t: List<Bedone>) {
-                    bedonesLiveData?.value = t
-                }
+        val obj = object : ReponseCall<List<Bedone>> {
+            override fun onResponse(t: List<Bedone>) {
+                bedonesLiveData?.value = t
+            }
 
-                override fun onError(e: java.lang.Exception) {
-                    bedonesLiveData?.value = mutableListOf()
-                }
-            })
-
+            override fun onError(e: java.lang.Exception) {
+                bedonesLiveData?.value = mutableListOf()
+            }
+        }
+        if (type == 1) {
+            BedoneDataApiRepository().getBedones(obj)
+        } else if (type == 0) {
+            BedoneDataApiRepository().getBedonesByType(0, obj)
+        } else if (type == -2) {
+            BedoneDataApiRepository().getDeletedBedones(obj)
+        } else {
+            BedoneDataApiRepository().getBedonesByType(type, obj)
         }
     }
 

@@ -17,4 +17,15 @@ interface BedoneDataApi {
 
     @DataMethod
     fun getBedonesByType(type: Int): List<Bedone>
+
+    @DataMethod
+    fun getBedonesSizeByType(type: Int): Int
+
+    @DataMethod
+    fun getDeletedBedones(): List<Bedone>
+
+    @DataMethod
+    fun getDeletedBedoneSize(): Int
+
+
 }

@@ -13,5 +13,5 @@ data class Bedone(
     @ColumnInfo(name = "create_time") var createTime: Long = 0,
     @ColumnInfo(name = "modify_time") var modify_time: Long = 0,
     @ColumnInfo(name = "author") var userId: String = "",
-    @ColumnInfo(name = "delete") var delete: Int = 0
+    @ColumnInfo(name = "deleteFlag") var deleteFlag: Int = 0
 )

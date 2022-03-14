@@ -29,6 +29,48 @@ class BedoneServiceImpl : BedoneService {
 
     }
 
+    override fun getBedoneSizeByType(type: Int, expression: (Int?, String?) -> Unit) {
+        if (type == -1) {
+            BedoneDataApiRepository().getBedonSize(object : ReponseCall<Int> {
+                override fun onResponse(t: Int) {
+                    expression?.invoke(t, "")
+                }
+
+                override fun onError(e: Exception) {
+                    //todo 打印错误日志
+                    expression?.invoke(null, e.message)
+                }
+
+            })
+        } else if (type == -2) {
+            BedoneDataApiRepository().getDeletedBedoneSize(object : ReponseCall<Int> {
+                override fun onResponse(t: Int) {
+                    expression?.invoke(t, "")
+                }
+
+                override fun onError(e: Exception) {
+                    //todo 打印错误日志
+                    expression?.invoke(null, e.message)
+                }
+
+            })
+        } else {
+            BedoneDataApiRepository().getBedonesSizeByType(type, object : ReponseCall<Int> {
+                override fun onResponse(t: Int) {
+                    expression?.invoke(t, "")
+                }
+
+                override fun onError(e: Exception) {
+                    //todo 打印错误日志
+                    expression?.invoke(null, e.message)
+                }
+
+            })
+        }
+
+    }
+
+
     override fun addBedone(context: Context, type: Int) {
         val bedoneAddDialog = BedoneAddDialog(context, type) {
             it?.apply {
@@ -45,6 +87,20 @@ class BedoneServiceImpl : BedoneService {
             }
         }
         bedoneAddDialog.show()
+    }
+
+    override fun getDeletedBedoneSize(expression: (Int?, String?) -> Unit) {
+        BedoneDataApiRepository().getDeletedBedoneSize(object : ReponseCall<Int> {
+            override fun onResponse(t: Int) {
+                expression?.invoke(t, "")
+            }
+
+            override fun onError(e: Exception) {
+                //todo 打印错误日志
+                expression?.invoke(null, e.message)
+            }
+
+        })
     }
 
     override fun init(context: Context?) {

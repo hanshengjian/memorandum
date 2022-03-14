@@ -43,6 +43,9 @@ class NoteListViewModel : ViewModel() {
             NoteDataApiRepository().getNotes(resObj)
         } else if (type == 0) {
             NoteDataApiRepository().getNotesByNoType(resObj)
+        } else if (type == -2) {
+            //已删除
+            NoteDataApiRepository().getDeletedNotes(resObj)
         } else {
             NoteDataApiRepository().getNotesByType(type, resObj)
         }
@@ -61,11 +64,6 @@ class NoteListViewModel : ViewModel() {
 
             })
         }
-    }
-
-
-    fun addClick() {
-        NavigatorManager.getNavigator(NoteNavigator::class.java)?.addPage()
     }
 
     fun editPage(id: Int) {

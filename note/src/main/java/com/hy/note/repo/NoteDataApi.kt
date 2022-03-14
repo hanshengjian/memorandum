@@ -35,5 +35,14 @@ interface NoteDataApi {
     fun getNotesByNoType(): List<Note>
 
     @DataMethod
+    fun getDeletedNotes(): List<Note>
+
+    @DataMethod
+    fun getDeletedNoteSize(): Int
+
+    @DataMethod
     fun deleteNote(note: Note): Int
+
+    @DataMethod
+    fun getNoteSizeByType(type: Int): Int
 }

@@ -1,31 +1,35 @@
 package com.hy.memorandum
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
 import com.hy.bedone.BeDoneFragment
+import com.hy.common.base.BaseActivity
 import com.hy.common.eventbus.RefreshBedone
 import com.hy.common.eventbus.RefreshNote
+import com.hy.common.flutter.MemFlutterActivity
+import com.hy.common.flutter.MemFlutterConstants
 import com.hy.common.navigator.BedoneNavigator
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.widget.DicPopupWin
+import com.hy.memorandum.databinding.ActivityMainBinding
 import com.hy.note.ui.NoteListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    lateinit var mainViewModel: MainViewModel
     var viewpager: ViewPager? = null
     var tablayout: TabLayout? = null
     val images = intArrayOf(
@@ -39,14 +43,15 @@ class MainActivity : AppCompatActivity() {
     var preNoteType: String? = "全部笔记";
     var preBedoneType: String? = "全部代办";
     var bedoneType: Int? = 0
+    var noteType: Int? = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initView()
-    }
+    override fun initView() {
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        binding.run {
+            viewModel = mainViewModel
+        }
 
-    private fun initView() {
+
         viewpager = findViewById(R.id.viewpager)
         viewpager?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
@@ -58,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                regreshMenuItem(position)
+                refreshMenuItem(position)
                 currentIndex = position
             }
 
@@ -91,14 +96,24 @@ class MainActivity : AppCompatActivity() {
                         collapsingtoolbarlayout?.title = type?.content
                         if (currentIndex == 0) {
                             preNoteType = type?.content
+                            noteType = type?.id
                             EventBus.getDefault().post(RefreshNote(type!!))
+                            mainViewModel.getDicTypeSize(noteType!!, 0)
                         } else {
                             preBedoneType = type?.content
                             bedoneType = type?.id
                             EventBus.getDefault().post(RefreshBedone(type!!))
+                            mainViewModel.getDicTypeSize(bedoneType!!, 1)
                         }
                     }
                     dicPopupWindow.show(toolbar!!)
+                }
+                R.id.action_settings -> {
+                    MemFlutterActivity.toSettingPage(
+                        this@MainActivity,
+                        "setting_page",
+                        MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL
+                    )
                 }
                 else -> {
 
@@ -115,20 +130,23 @@ class MainActivity : AppCompatActivity() {
                     ?.addBedone(this, bedoneType!!)
             }
         }
-        regreshMenuItem(0)
+        refreshMenuItem(0)
     }
 
 
-    fun regreshMenuItem(type: Int) {
+    fun refreshMenuItem(type: Int) {
         if (type == 0) {
             toolbar?.menu?.clear()
             toolbar?.inflateMenu(R.menu.menu_note);
             collapsingtoolbarlayout?.title = preNoteType
+            mainViewModel.getDicTypeSize(noteType!!, 0)
         } else {
             toolbar?.menu?.clear()
             toolbar?.inflateMenu(R.menu.menu_bedone);
             collapsingtoolbarlayout?.title = preBedoneType
+            mainViewModel.getDicTypeSize(bedoneType!!, 1)
         }
+
     }
 
 
@@ -143,5 +161,13 @@ class MainActivity : AppCompatActivity() {
         override fun getCount(): Int {
             return fragments.size
         }
+    }
+
+    override fun onCreateLayout(): Int {
+        return R.layout.activity_main
+    }
+
+    override fun initData() {
+
     }
 }

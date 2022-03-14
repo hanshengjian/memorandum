@@ -40,6 +40,7 @@ class DicPopupWin(
     var mDicPopAdapter: DicPopAdapter? = null
     var mAllDataSizeTv: TextView? = null
     var mNoTypeTv: TextView? = null
+    var mDeleteTypeTv: TextView? = null
 
     //label tv
     var allDataLabelTv: TextView? = null
@@ -71,6 +72,7 @@ class DicPopupWin(
         mAllDataSizeTv = root.findViewById(R.id.all_data_tv)
         mNoTypeTv = root.findViewById(R.id.no_type_tv)
         allDataLabelTv = root.findViewById(R.id.all_data_lable_tv)
+        mDeleteTypeTv = root.findViewById(R.id.delete_data_tv)
         if (page == 1) {
             mConverll?.visibility = View.GONE
             allDataLabelTv?.text = labelMap[page]
@@ -79,6 +81,7 @@ class DicPopupWin(
         root.findViewById<View>(R.id.pic_manager_tv).setOnClickListener(this)
         root.findViewById<View>(R.id.all_data_rl).setOnClickListener(this)
         root.findViewById<View>(R.id.no_type_rl).setOnClickListener(this)
+        root.findViewById<View>(R.id.delete_rl).setOnClickListener(this)
 
         mDicListRecyc = root.findViewById(R.id.dic_list_recyc)
         mDicListRecyc?.layoutManager = LinearLayoutManager(context)
@@ -121,6 +124,14 @@ class DicPopupWin(
                         mNoTypeTv?.text = result.toString()
                     }
                 }
+            NavigatorManager.getNavigator(NoteNavigator::class.java)?.getNoteService()
+                ?.getDeletedNoteSize { result, message ->
+                    if (result != null && result > 0) {
+                        mDeleteTypeTv?.text = result.toString()
+                    }
+                }
+
+
         } else {
             NavigatorManager.getNavigator(BedoneNavigator::class.java)?.getBedoneService()
                 ?.getBedoneSize { result, message ->
@@ -132,6 +143,12 @@ class DicPopupWin(
                 ?.getBedoneSizeNoType { result, message ->
                     if (result != null && result > 0) {
                         mNoTypeTv?.text = result.toString()
+                    }
+                }
+            NavigatorManager.getNavigator(BedoneNavigator::class.java)?.getBedoneService()
+                ?.getDeletedBedoneSize() { result, message ->
+                    if (result != null && result > 0) {
+                        mDeleteTypeTv?.text = result.toString()
                     }
                 }
         }
@@ -156,6 +173,10 @@ class DicPopupWin(
             R.id.no_type_rl -> {
                 dismiss()
                 expression.invoke(DicType(id = 0, content = "未分类"))
+            }
+            R.id.delete_rl -> {
+                dismiss()
+                expression.invoke(DicType(id = -2, content = "最近删除"))
             }
         }
     }

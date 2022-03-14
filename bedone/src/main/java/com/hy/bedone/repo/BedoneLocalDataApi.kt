@@ -41,4 +41,31 @@ class BedoneLocalDataApi : BedoneDataApi {
             throw e
         }
     }
+
+    override fun getBedonesSizeByType(type: Int): Int {
+        try {
+            return AppDatabaseInstance().bedoneDao().getBedoneSizeByType(type)
+        } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedonesByType fail msg:" + e.message)
+            throw e
+        }
+    }
+
+    override fun getDeletedBedones(): List<Bedone> {
+        try {
+            return AppDatabaseInstance().bedoneDao().getDeletedBedones()
+        } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedonesByType fail msg:" + e.message)
+            throw e
+        }
+    }
+
+    override fun getDeletedBedoneSize(): Int {
+        try {
+            return AppDatabaseInstance().bedoneDao().getDeletedBedonesSize()
+        } catch (e: Exception) {
+            LogUtil.i("Bedone", "getBedonesByType fail msg:" + e.message)
+            throw e
+        }
+    }
 }

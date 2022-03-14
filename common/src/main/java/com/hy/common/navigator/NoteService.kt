@@ -13,4 +13,10 @@ interface NoteService : IProvider {
 
     //获取未分类的笔记数 (Int?,String?) : (数量，错误信息)
     fun getNotesSizeNoType(expression: (Int?, String?) -> Unit)
+
+    //获取某个分类的笔记数(Int?,String?) : (数量，错误信息)
+    fun getNoteSizeByType(type: Int, expression: (Int?, String?) -> Unit)
+
+    //获取删除笔记数(Int?,String?) : (数量，错误信息)
+    fun getDeletedNoteSize(expression: (Int?, String?) -> Unit)
 }
