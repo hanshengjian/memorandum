@@ -5,6 +5,7 @@ import cody.bus.ElegantBus
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.hy.bedone.repo.BedoneDataApiRepository
 import com.hy.bedone.widget.BedoneAddDialog
+import com.hy.common.HyVariable
 import com.hy.common.navigator.BedoneNavigator
 import com.hy.common.navigator.BedoneService
 import com.hy.common.repo.ReponseCall
@@ -26,11 +27,24 @@ class BedoneServiceImpl : BedoneService {
     }
 
     override fun getBedoneSizeNoType(expression: (Int?, String?) -> Unit) {
+        //type 特殊类型
+        BedoneDataApiRepository().getBedonesSizeByType(HyVariable.NO_TYPE,
+            object : ReponseCall<Int> {
+                override fun onResponse(t: Int) {
+                    expression?.invoke(t, "")
+                }
 
+                override fun onError(e: Exception) {
+                    //todo 打印错误日志
+                    expression?.invoke(null, e.message)
+                }
+
+            })
     }
 
     override fun getBedoneSizeByType(type: Int, expression: (Int?, String?) -> Unit) {
-        if (type == -1) {
+        if (type == HyVariable.ALL_TYPE) {
+            //q全部
             BedoneDataApiRepository().getBedonSize(object : ReponseCall<Int> {
                 override fun onResponse(t: Int) {
                     expression?.invoke(t, "")
@@ -42,7 +56,8 @@ class BedoneServiceImpl : BedoneService {
                 }
 
             })
-        } else if (type == -2) {
+        } else if (type == HyVariable.DELETE_TYPE) {
+            //删除
             BedoneDataApiRepository().getDeletedBedoneSize(object : ReponseCall<Int> {
                 override fun onResponse(t: Int) {
                     expression?.invoke(t, "")
@@ -72,7 +87,10 @@ class BedoneServiceImpl : BedoneService {
 
 
     override fun addBedone(context: Context, type: Int) {
-        val bedoneAddDialog = BedoneAddDialog(context, type) {
+        val bedoneAddDialog = BedoneAddDialog(
+            context,
+            if (type == HyVariable.ALL_TYPE) HyVariable.NO_TYPE else type
+        ) {
             it?.apply {
                 BedoneDataApiRepository().addBedone(this, object : ReponseCall<Int> {
                     override fun onResponse(t: Int) {

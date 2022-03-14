@@ -2,6 +2,7 @@ package com.hy.note.ui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hy.common.HyVariable
 import com.hy.common.model.Note
 import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
@@ -39,11 +40,11 @@ class NoteListViewModel : ViewModel() {
                 notesLiveData?.value = mutableListOf()
             }
         }
-        if (type == -1) {
+        if (type == HyVariable.ALL_TYPE) {
             NoteDataApiRepository().getNotes(resObj)
-        } else if (type == 0) {
+        } else if (type == HyVariable.NO_TYPE) {
             NoteDataApiRepository().getNotesByNoType(resObj)
-        } else if (type == -2) {
+        } else if (type == HyVariable.DELETE_TYPE) {
             //已删除
             NoteDataApiRepository().getDeletedNotes(resObj)
         } else {

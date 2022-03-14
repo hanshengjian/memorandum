@@ -10,6 +10,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hy.common.HyVariable
 import com.hy.common.R
 import com.hy.common.eventbus.CreateDicTypeEvent
 import com.hy.common.model.DicType
@@ -168,15 +169,21 @@ class DicPopupWin(
             }
             R.id.all_data_rl -> {
                 dismiss()
-                expression.invoke(DicType(id = -1, content = labelMap[page]!!, page = this.page))
+                expression.invoke(
+                    DicType(
+                        id = HyVariable.ALL_TYPE,
+                        content = labelMap[page]!!,
+                        page = this.page
+                    )
+                )
             }
             R.id.no_type_rl -> {
                 dismiss()
-                expression.invoke(DicType(id = 0, content = "未分类"))
+                expression.invoke(DicType(id = HyVariable.NO_TYPE, content = "未分类"))
             }
             R.id.delete_rl -> {
                 dismiss()
-                expression.invoke(DicType(id = -2, content = "最近删除"))
+                expression.invoke(DicType(id = HyVariable.DELETE_TYPE, content = "最近删除"))
             }
         }
     }

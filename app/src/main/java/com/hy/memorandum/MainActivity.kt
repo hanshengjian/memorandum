@@ -10,9 +10,12 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
+import cody.bus.ElegantBus
+import cody.bus.ObserverWrapper
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.tabs.TabLayout
 import com.hy.bedone.BeDoneFragment
+import com.hy.common.HyVariable
 import com.hy.common.base.BaseActivity
 import com.hy.common.eventbus.RefreshBedone
 import com.hy.common.eventbus.RefreshNote
@@ -42,8 +45,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     var collapsingtoolbarlayout: CollapsingToolbarLayout? = null
     var preNoteType: String? = "全部笔记";
     var preBedoneType: String? = "全部代办";
-    var bedoneType: Int? = 0
-    var noteType: Int? = 0
+    var bedoneType: Int? = HyVariable.ALL_TYPE
+    var noteType: Int? = HyVariable.ALL_TYPE
 
     override fun initView() {
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -168,6 +171,20 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initData() {
+        ElegantBus.getDefault("noteSaveState")
+            .observe(this, object : ObserverWrapper<Any>() {
+                override fun onChanged(value: Any?) {
+                    mainViewModel.getDicTypeSize(noteType!!, 0)
+                }
+            })
+        ElegantBus.getDefault("bedoneSaveState")
+            .observe(this, object : ObserverWrapper<Any>() {
+                override fun onChanged(value: Any?) {
+                    if (value is Int) {
+                        mainViewModel.getDicTypeSize(bedoneType!!, 1)
+                    }
 
+                }
+            })
     }
 }

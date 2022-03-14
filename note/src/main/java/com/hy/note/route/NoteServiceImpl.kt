@@ -2,6 +2,7 @@ package com.hy.note.route
 
 import android.content.Context
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.hy.common.HyVariable
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.navigator.NoteService
 import com.hy.common.repo.ReponseCall
@@ -30,7 +31,7 @@ class NoteServiceImpl : NoteService {
 
     override fun getNotesSizeNoType(expression: (Int?, String?) -> Unit) {
         val noteRepository = NoteDataApiRepository()
-        noteRepository.getNotesSizeNoType(object : ReponseCall<Int> {
+        noteRepository.getNoteSizeByType(HyVariable.NO_TYPE, object : ReponseCall<Int> {
             override fun onResponse(t: Int) {
                 expression.invoke(t, "")
             }
@@ -44,7 +45,7 @@ class NoteServiceImpl : NoteService {
 
     override fun getNoteSizeByType(type: Int, expression: (Int?, String?) -> Unit) {
         val noteRepository = NoteDataApiRepository()
-        if (type == -1) {
+        if (type == HyVariable.ALL_TYPE) {
             //全部
             noteRepository.getNotesSize(object : ReponseCall<Int> {
                 override fun onResponse(t: Int) {
@@ -56,7 +57,7 @@ class NoteServiceImpl : NoteService {
                 }
 
             })
-        } else if (type == -2) {
+        } else if (type == HyVariable.DELETE_TYPE) {
             //最近删除
             noteRepository.getDeletedNoteSize(object : ReponseCall<Int> {
                 override fun onResponse(t: Int) {
