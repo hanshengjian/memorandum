@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.PopupWindow
 import com.hy.common.R
+import com.hy.common.flutter.MemFlutterActivity
+import com.hy.common.flutter.MemFlutterConstants
 
 /**
  * @auther:hanshengjian
@@ -24,12 +26,20 @@ class DicManagerPopupWin(val page:Int,val context:Context):PopupWindow(context) 
         initView(rootView)
     }
 
-    fun initView(root:View){
+    fun initView(root:View) {
         root.findViewById<View>(R.id.create_dic_tv).setOnClickListener {
             dismiss()
-            val addDicTypePopupWin = AddDicTypePopupWin(page,context)
+            val addDicTypePopupWin = AddDicTypePopupWin(page, context)
             val parentView = (context as Activity).window.decorView
             addDicTypePopupWin.show(parentView)
+        }
+        root.findViewById<View>(R.id.edit_dic_type_tv).setOnClickListener {
+            dismiss()
+            MemFlutterActivity.toFlutterPage(
+                context,
+                "dicmanager_page",
+                MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL
+            )
         }
     }
 

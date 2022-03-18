@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hy.bedone.repo.BedoneDataApiRepository
 import com.hy.bedone.widget.BedoneAddDialog
+import com.hy.common.HyVariable
 import com.hy.common.model.Bedone
 import com.hy.common.repo.ReponseCall
 
@@ -24,11 +25,11 @@ class BeDoneViewModel : ViewModel() {
                 bedonesLiveData?.value = mutableListOf()
             }
         }
-        if (type == 1) {
+        if (type == HyVariable.ALL_TYPE) {
             BedoneDataApiRepository().getBedones(obj)
-        } else if (type == 0) {
-            BedoneDataApiRepository().getBedonesByType(0, obj)
-        } else if (type == -2) {
+        } else if (type == HyVariable.NO_TYPE) {
+            BedoneDataApiRepository().getBedonesByType(HyVariable.NO_TYPE, obj)
+        } else if (type == HyVariable.DELETE_TYPE) {
             BedoneDataApiRepository().getDeletedBedones(obj)
         } else {
             BedoneDataApiRepository().getBedonesByType(type, obj)

@@ -30,6 +30,14 @@ dependencies:
 
   fluttertoast: ^8.0.8
 
+  # overlay 形式 dialog
+  bot_toast: ^3.0.5
+  #页面跳转
+  fluro: ^2.0.3
+
+  english_words: ^4.0.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

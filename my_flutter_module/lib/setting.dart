@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:my_flutter_module/channel/FlutterPlugin.dart';
 
 class SettingPage extends StatelessWidget {

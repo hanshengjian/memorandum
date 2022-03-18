@@ -37,7 +37,7 @@ class NoteApplication:BaseApp() {
         try {
             val flutterEngine = FlutterEngine(this)
             flutterEngine.getNavigationChannel()
-                .setInitialRoute("setting_page")
+                .setInitialRoute("MemoRandumAPP")
             flutterEngine.getDartExecutor()
                 .executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
             flutterEngine.plugins.add(MethodChannelPlugin())

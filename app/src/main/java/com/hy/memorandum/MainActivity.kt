@@ -112,7 +112,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                     dicPopupWindow.show(toolbar!!)
                 }
                 R.id.action_settings -> {
-                    MemFlutterActivity.toSettingPage(
+                    MemFlutterActivity.toFlutterPage(
                         this@MainActivity,
                         "setting_page",
                         MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL
