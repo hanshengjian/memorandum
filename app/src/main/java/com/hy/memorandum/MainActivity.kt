@@ -1,5 +1,6 @@
 package com.hy.memorandum
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -26,6 +27,7 @@ import com.hy.common.navigator.NavigatorManager
 import com.hy.common.navigator.NoteNavigator
 import com.hy.common.widget.DicPopupWin
 import com.hy.memorandum.databinding.ActivityMainBinding
+import com.hy.memorandum.otherdemo.ScreenBroadcastReceiver
 import com.hy.note.ui.NoteListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
@@ -49,6 +51,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     var noteType: Int? = HyVariable.ALL_TYPE
 
     override fun initView() {
+        val mScreenReceiver = ScreenBroadcastReceiver()
+        mScreenReceiver.registerScreenBroadcastReceiver(this)
+
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         binding.run {
             viewModel = mainViewModel
@@ -132,6 +137,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 NavigatorManager.getNavigator(BedoneNavigator::class.java)?.getBedoneService()
                     ?.addBedone(this, bedoneType!!)
             }
+
+            val intent = Intent()
+            intent.action = "com.memdun.alarm"
+            this.sendBroadcast(intent)
         }
         refreshMenuItem(0)
     }

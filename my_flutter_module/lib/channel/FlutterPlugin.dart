@@ -7,6 +7,8 @@ class FlutterPlugin{
   static const BasicMessageChannel basicMessageChannel =
       const BasicMessageChannel(
           'flutter_plugin_basic_message_channel', StandardMessageCodec());
+  static const MethodChannel nativeMsgMethodchannel =
+      const MethodChannel("com.memorandum/native_image");
 
   static Future<String> get toNotificationManager async {
     final String version =
@@ -18,5 +20,9 @@ class FlutterPlugin{
     await methodchannel.invokeMethod("finishFlutterPage");
   }
 
-
+  static Future<String> getImageUrl(String url) async {
+    final String localUrl =
+        await nativeMsgMethodchannel.invokeMethod("getNativeImage", url);
+    return localUrl;
+  }
 }

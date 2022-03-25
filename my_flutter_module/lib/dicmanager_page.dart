@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:my_flutter_module/channel/FlutterPlugin.dart';
 
@@ -35,6 +36,12 @@ class _DicManagerPageState extends State<DicManagerPage> {
   ];
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       //选项卡长度
@@ -42,9 +49,8 @@ class _DicManagerPageState extends State<DicManagerPage> {
       child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => FlutterPlugin.finishFlutterPage,
-            ),
+                icon: Icon(Icons.arrow_back, color: Colors.white),
+                onPressed: () => {finish(context)}),
             title: Text("编辑"),
             //添加选项卡按钮，注意此bottom表示在AppBar的底部，在整个页面上看还是处于顶部区域
             bottom: TabBar(
@@ -57,5 +63,10 @@ class _DicManagerPageState extends State<DicManagerPage> {
             DataOne(),
           ])),
     );
+  }
+
+  void finish(BuildContext context) {
+    SystemNavigator.pop();
+    FlutterPlugin.finishFlutterPage;
   }
 }

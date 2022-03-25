@@ -22,6 +22,7 @@ public class MemFlutterActivity:FlutterActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         basicMessageChannel = flutterEngine?.dartExecutor?.binaryMessenger?.let {
             BasicMessageChannel(
                 it,

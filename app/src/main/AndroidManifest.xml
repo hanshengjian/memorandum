@@ -3,6 +3,7 @@
     package="com.hy.memorandum">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"></uses-permission>
 
     <application
         android:name=".NoteApplication"
@@ -16,6 +17,9 @@
             android:name=".otherdemo.AnimationTestDemo"
             android:screenOrientation="portrait" />
         <activity android:name=".AppbarTestActivity"></activity>
+
+        <receiver android:name=".otherdemo.ScreenBroadcastReceiver"></receiver>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"

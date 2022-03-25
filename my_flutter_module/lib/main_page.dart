@@ -17,6 +17,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late Widget _initRoute = DefaultHomePage();
+  String page = "";
 
   @override
   void initState() {
@@ -34,7 +35,8 @@ class _MainPageState extends State<MainPage> {
   /// 处理来自 setInitRoute 的消息
   void handleInitRouteMethodCall(MethodCall call) async {
     print("handleInitRouteMethodCall ${call.arguments}");
-    var paramMap = toParamsMap(call.arguments);
+    _initRoute = DefaultHomePage();
+    this.page = call.arguments;
     handleRoutePage(call.arguments);
     if (mounted) {
       /// 更新界面
@@ -55,6 +57,10 @@ class _MainPageState extends State<MainPage> {
           _initRoute = SettingPage();
         }
         break;
+      default:
+        if (!(_initRoute is DefaultHomePage)) {
+          _initRoute = DefaultHomePage();
+        }
     }
   }
 
@@ -69,6 +75,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    handleRoutePage(this.page);
     return _initRoute;
   }
 }

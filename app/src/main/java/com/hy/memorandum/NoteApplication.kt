@@ -6,6 +6,8 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.hy.common.base.BaseApp
 import com.hy.common.flutter.MemFlutterConstants
 import com.hy.common.flutter.MethodChannelPlugin
+import com.hy.common.widget.FlutterNativeImageChannel
+import com.hy.common.widget.MyPlugin
 import com.hy.utils.LogUtil
 import com.tencent.mmkv.MMKV
 import io.flutter.embedding.engine.FlutterEngine
@@ -41,6 +43,8 @@ class NoteApplication:BaseApp() {
             flutterEngine.getDartExecutor()
                 .executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
             flutterEngine.plugins.add(MethodChannelPlugin())
+            flutterEngine.plugins.add(MyPlugin())
+            flutterEngine.plugins.add(FlutterNativeImageChannel())
             FlutterEngineCache.getInstance()
                 .put(MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL, flutterEngine)
         } catch (e: Throwable) {
