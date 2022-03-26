@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter_module/data_detail.dart';
 
 import 'native_image_provider.dart';
 
@@ -10,11 +11,20 @@ class DataItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(this.title!, style: TextStyle(fontSize: 14)),
-        Image(image: NativeImageProvider(image!), width: 100, height: 100)
-      ],
+    return GestureDetector(
+      child: Row(
+        children: [
+          Text(this.title!, style: TextStyle(fontSize: 14)),
+          Image(image: NativeImageProvider(image!), width: 100, height: 100)
+        ],
+      ),
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) {
+            return DataDetail(imageUrl: this.image!);
+          },
+        ));
+      },
     );
   }
 }
