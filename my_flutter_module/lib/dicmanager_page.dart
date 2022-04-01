@@ -58,9 +58,9 @@ class _DicManagerPageState extends State<DicManagerPage> {
             ),
           ),
           body: TabBarView(children: [
-            DataOne(),
-            DataOne(),
-            DataOne(),
+            DataOneStateFulWidget(),
+            DataOneStateFulWidget(),
+            DataOneStateFulWidget(),
           ])),
     );
   }

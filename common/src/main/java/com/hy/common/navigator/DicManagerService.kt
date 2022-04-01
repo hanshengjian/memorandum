@@ -20,4 +20,7 @@ interface DicManagerService:IProvider {
 
     //更新分类 (Int?, String?)：(更新的返回值，大于0代表更新成功，错误信息)
     fun updateDicType(dicType: DicType,expression: (Int?, String?) -> Unit)
+
+    fun addDefaultType();
+
 }

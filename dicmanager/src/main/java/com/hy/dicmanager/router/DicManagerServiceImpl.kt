@@ -70,6 +70,14 @@ class DicManagerServiceImpl:DicManagerService {
         })
     }
 
+    override fun addDefaultType() {
+         //加载default_dictypes.json
+
+
+
+
+    }
+
     override fun init(context: Context?) {
 
     }

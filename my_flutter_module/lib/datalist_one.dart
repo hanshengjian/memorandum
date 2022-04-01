@@ -2,16 +2,6 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 import 'data_item.dart';
-
-class DataOne extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DataOneStateFulWidget(),
-    );
-  }
-}
-
 class DataOneStateFulWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {

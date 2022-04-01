@@ -37,7 +37,7 @@ class DicManagerPopupWin(val page:Int,val context:Context):PopupWindow(context) 
             dismiss()
             MemFlutterActivity.toFlutterPage(
                 context,
-                "dicmanager_page",
+                "main",
                 MemFlutterConstants.FLUTTER_ENGINE_ID_VERTICAL
             )
         }

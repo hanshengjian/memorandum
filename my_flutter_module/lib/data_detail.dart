@@ -22,19 +22,23 @@ class DataState extends State<DataDetail> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 400.0,
-        width: 400,
-        child: ExtendedImage.network(
-          this.imageUrl,
-          width: ScreenUtil.instance.setWidth(400),
-          height: ScreenUtil.instance.setWidth(400),
-          fit: BoxFit.fill,
-          cache: true,
-          border: Border.all(color: Colors.red, width: 1.0),
-          shape: boxShape,
-          borderRadius: BorderRadius.all(Radius.circular(30.0)),
-          //cancelToken: cancellationToken,
-        ));
+    return ExtendedImage.network(
+      this.imageUrl,
+      fit: BoxFit.contain,
+      //enableLoadState: false,
+      enableSlideOutPage: true,
+      mode: ExtendedImageMode.gesture,
+      initGestureConfigHandler: (state) {
+        return GestureConfig(
+            minScale: 0.9,
+            animationMinScale: 0.7,
+            maxScale: 1,
+            animationMaxScale: 3.5,
+            speed: 1.0,
+            inertialSpeed: 100.0,
+            initialScale: 1.0,
+            inPageView: true);
+      },
+    );
   }
 }

@@ -1,0 +1,49 @@
+[
+  {
+    "content": "我的笔记",
+    "page": 0,
+    "child": [
+      {
+        "content": "作文素材",
+        "page": 0
+      },
+      {
+        "content": "旅游",
+        "page": 0
+      },
+      {
+        "content": "个人",
+        "page": 0
+      },
+      {
+        "content": "生活",
+        "page": 0
+      },
+      {
+        "content": "工作",
+        "page": 0
+      }
+    ]
+  },
+
+  {
+    "content": "我的代办",
+    "page": 1,
+    "parentType": -1,
+    "child": [
+      {
+        "content": "工作",
+        "page": 1
+      },
+      {
+        "content": "个人",
+        "page": 1
+      },
+      {
+        "content": "购物",
+        "page": 1
+      }
+    ]
+  }
+
+]

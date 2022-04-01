@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter_module/data_detail.dart';
 
+import 'gesturePainter.dart';
 import 'native_image_provider.dart';
 
 class DataItem extends StatelessWidget {
